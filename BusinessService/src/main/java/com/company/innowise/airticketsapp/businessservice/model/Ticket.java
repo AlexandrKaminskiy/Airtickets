@@ -30,7 +30,7 @@ public class Ticket extends PrimaryEntity {
     @JoinColumn(name = "company_id")
     private Company company;
 
-    @OneToMany(mappedBy = "ticket")
+    @ManyToMany(mappedBy = "ticket")
     private List<Passenger> passenger;
 
 }
