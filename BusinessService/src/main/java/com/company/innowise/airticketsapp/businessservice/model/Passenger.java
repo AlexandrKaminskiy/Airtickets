@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -16,10 +17,7 @@ public class Passenger extends PrimaryEntity {
     private String lastname;
     private LocalDate birthdate;
 
-    @ManyToOne(cascade = { CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-    @JoinColumn(name = "client_id")
-    private Client client;
+
     @ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE,
             CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
     @JoinTable(name="passenger_ticket",
@@ -27,5 +25,7 @@ public class Passenger extends PrimaryEntity {
             inverseJoinColumns = @JoinColumn(name = "ticket_id"))
     private List<Ticket> ticket;
 
+    @ManyToMany(mappedBy = "passenger")
+    private List<Client> clients;
 
 }

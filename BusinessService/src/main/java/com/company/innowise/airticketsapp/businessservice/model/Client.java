@@ -3,7 +3,6 @@ package com.company.innowise.airticketsapp.businessservice.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Collection;
 import java.util.List;
 
 @Data
@@ -18,7 +17,11 @@ public class Client extends PrimaryEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "client")
+    @ManyToMany(cascade = { CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+    @JoinTable(name="client_passenger",
+            joinColumns = @JoinColumn(name = "client_id"),
+            inverseJoinColumns = @JoinColumn(name = "passenger_id"))
     private List<Passenger> passenger;
 
 }
