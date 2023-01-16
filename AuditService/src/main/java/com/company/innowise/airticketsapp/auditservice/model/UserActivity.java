@@ -13,9 +13,12 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class UserActivity {
+
     @Id
     private Long id;
+
     private Long userId;
+
     private LocalDate activityTime;
 
     private Activity activity;
