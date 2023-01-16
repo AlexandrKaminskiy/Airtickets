@@ -1,15 +1,18 @@
 package com.company.innowise.airticketsapp.businessservice.model;
 
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
-@Table(name = "airport")
-public class Airport {
-    @EmbeddedId
-    private AirportEmbeddedId airportEmbeddedId;
+public class Airport extends PrimaryEntity {
+
+    private String name;
+
+    private String country;
+
+    private String town;
 
 }

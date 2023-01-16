@@ -1,36 +1,35 @@
 package com.company.innowise.airticketsapp.businessservice.model;
 
-import jakarta.persistence.*;
-import lombok.Data;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.Currency;
-import java.util.List;
 
-@Data
+@Getter
+@Setter
 @Entity
-@Table(name = "ticket")
 public class Ticket extends PrimaryEntity {
-    @ManyToOne(optional = false, cascade = { CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+
+    @ManyToOne
     private Airport from;
 
-    @ManyToOne(optional = false, cascade = { CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
+    @ManyToOne
     private Airport to;
 
     private LocalDate timeDeparture;
+
     private LocalDate timeArrive;
-    private boolean isAdult;
-    private int quantity;
+
     private Currency price;
-    @ManyToOne(optional = false, cascade = { CascadeType.DETACH, CascadeType.MERGE,
-            CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH })
-    @JoinColumn(name = "company_id")
+
+    @ManyToOne
     private Company company;
 
-    @ManyToMany(mappedBy = "ticket")
-    private List<Passenger> passenger;
+    @ManyToOne
+    private Passenger passenger;
 
 }
