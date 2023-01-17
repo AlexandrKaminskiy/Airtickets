@@ -27,8 +27,20 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
+    annotationProcessor('org.hibernate:hibernate-jpamodelgen:6.1.6.Final')
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+tasks.withType(JavaCompile).configureEach {
+    options.annotationProcessorGeneratedSourcesDirectory = file("src/generated/java")
+}
+
+sourceSets {
+    generated {
+        java {
+            srcDirs = ['src/generated/java']
+        }
+    }
 }
