@@ -3,6 +3,7 @@ package com.company.innowise.airticketsapp.businessservice.service;
 import com.company.innowise.airticketsapp.businessservice.model.Airport;
 import com.company.innowise.airticketsapp.businessservice.model.Airport_;
 import com.company.innowise.airticketsapp.businessservice.repository.AirportRepository;
+import com.company.innowise.airticketsapp.businessservice.repository.quetyUtils.SpecificationBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,10 @@ public class AirportService {
         return airportRepository.findAll(specification);
     }
 
+    public Airport getAirport(Long id) {
+        return airportRepository.getReferenceById(id);
+    }
+
     public Airport addAirport(Airport airport) {
         airportRepository.save(airport);
         return airport;
@@ -36,10 +41,10 @@ public class AirportService {
 
     private Specification<Airport> getSpecification(Map<String,Object> parameters) {
         return ((root, query, criteriaBuilder) -> criteriaBuilder.and(
-                criteriaBuilder.equal(root.get(Airport_.town), parameters.get("town")),
-                criteriaBuilder.equal(root.get(Airport_.country), parameters.get("country")),
-                criteriaBuilder.equal(root.get(Airport_.name), parameters.get("name")),
-                criteriaBuilder.equal(root.get(Airport_.id), parameters.get("id"))
-        ));
+            SpecificationBuilder.builder()
+                    .add(criteriaBuilder.equal(root.get(Airport_.town), parameters.get("town")), parameters.get("town"))
+                    .add(criteriaBuilder.equal(root.get(Airport_.country), parameters.get("country")), parameters.get("country"))
+                    .add(criteriaBuilder.equal(root.get(Airport_.name), parameters.get("name")), parameters.get("name`"))
+                    .build()));
     }
 }

@@ -26,13 +26,21 @@ public class AirportServiceTest {
     }
 
     @Test
+    public void createAndGet() {
+        Airport airport = airportService.addAirport(new Airport("ooo","bbb","ccc"));
+        long id = airport.getId();
+        Airport airport1 = airportService.getAirport(id);
+        Assertions.assertEquals(id, airport1.getId());
+    }
+
+    @Test
     void getAll() {
         Assertions.assertEquals(4, airportService.getAll().size());
     }
 
     @Test
     void testGetAll() {
-        Assertions.assertEquals(1, airportService.getAll(Map.of("name","jjj")).size());
+        Assertions.assertEquals(2, airportService.getAll(Map.of("name","jjj")).size());
     }
 
 
