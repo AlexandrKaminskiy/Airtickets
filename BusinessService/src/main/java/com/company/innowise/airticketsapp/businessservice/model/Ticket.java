@@ -2,6 +2,7 @@ package com.company.innowise.airticketsapp.businessservice.model;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +19,7 @@ import java.util.Currency;
 @Entity
 public class Ticket extends PrimaryEntity {
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Airport from;
 
     @ManyToOne
@@ -30,10 +31,10 @@ public class Ticket extends PrimaryEntity {
 
     private Currency price;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Company company;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Passenger passenger;
 
 }
