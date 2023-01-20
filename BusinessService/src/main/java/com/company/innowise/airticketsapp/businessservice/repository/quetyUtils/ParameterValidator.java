@@ -1,26 +1,21 @@
 package com.company.innowise.airticketsapp.businessservice.repository.quetyUtils;
 
-import com.company.innowise.airticketsapp.businessservice.model.Airport_;
-import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.expression.common.ExpressionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class SpecificationBuilder {
+public class ParameterValidator {
 
     private final List<Predicate> predicates;
 
-    private SpecificationBuilder() {
+    private ParameterValidator() {
         predicates = new ArrayList<>();
     }
 
-    public SpecificationBuilder add(Predicate predicate, Object value) {
+    public ParameterValidator add(Predicate predicate, Object value) {
         if (value != null) {
-
             predicates.add(predicate);
         }
         return this;
@@ -30,7 +25,7 @@ public class SpecificationBuilder {
         return predicates.toArray(new Predicate[0]);
     }
 
-    public static SpecificationBuilder builder() {
-        return new SpecificationBuilder();
+    public static ParameterValidator builder() {
+        return new ParameterValidator();
     }
 }
