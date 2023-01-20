@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Currency;
 
@@ -29,7 +30,7 @@ public class Ticket extends PrimaryEntity {
 
     private LocalDate timeArrive;
 
-    private Currency price;
+    private BigDecimal price;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Company company;
