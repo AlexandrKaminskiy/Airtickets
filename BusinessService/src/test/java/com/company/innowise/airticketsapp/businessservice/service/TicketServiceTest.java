@@ -1,7 +1,10 @@
 package com.company.innowise.airticketsapp.businessservice.service;
 
+import com.company.innowise.airticketsapp.businessservice.model.Ticket;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Currency;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,6 +21,8 @@ class TicketServiceTest {
 
     @Test
     void getTicket() {
+        Ticket ticket = new Ticket();
+        ticket.setPrice(Currency);
     }
 
     @Test

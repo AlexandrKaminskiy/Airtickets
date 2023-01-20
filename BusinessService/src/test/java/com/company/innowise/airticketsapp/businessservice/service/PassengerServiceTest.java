@@ -34,7 +34,9 @@ public class PassengerServiceTest {
         Passenger passenger = new Passenger();
         passenger.setBirthdate(LocalDate.now());
         passenger.setFirstname("alexandr");
-        passenger.setLastname("kaminskiy");as
+        passenger.setLastname("kaminskiy");
+        passenger.setRole(Role.ADMIN);
+        passenger.setPassport("AB1234567");
         passengerService.addPassenger(new Passenger("sasha@gmail.com"))
     }
 
