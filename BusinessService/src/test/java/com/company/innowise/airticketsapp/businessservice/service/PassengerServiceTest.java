@@ -37,7 +37,7 @@ public class PassengerServiceTest {
         passenger.setLastname("kaminskiy");
         passenger.setRole(Role.ADMIN);
         passenger.setPassport("AB1234567");
-        passengerService.addPassenger(new Passenger("sasha@gmail.com"))
+
     }
 
     @Test

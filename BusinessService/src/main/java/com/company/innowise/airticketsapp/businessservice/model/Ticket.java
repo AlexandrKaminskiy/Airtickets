@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Currency;
 
@@ -18,22 +19,22 @@ import java.util.Currency;
 @Entity
 public class Ticket extends PrimaryEntity {
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Airport from;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Airport to;
 
     private LocalDate timeDeparture;
 
     private LocalDate timeArrive;
 
-    private Currency price;
+    private BigDecimal price;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Company company;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Passenger passenger;
 
 }
