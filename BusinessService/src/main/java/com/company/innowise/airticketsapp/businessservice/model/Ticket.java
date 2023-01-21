@@ -11,6 +11,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Currency;
 
 @Getter
@@ -26,9 +27,9 @@ public class Ticket extends PrimaryEntity {
     @ManyToOne
     private Airport to;
 
-    private LocalDate timeDeparture;
+    private LocalDateTime timeDeparture;
 
-    private LocalDate timeArrive;
+    private LocalDateTime timeArrive;
 
     private BigDecimal price;
 
