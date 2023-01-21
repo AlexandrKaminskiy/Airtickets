@@ -23,7 +23,7 @@ public class AirportSpecificationBuilder implements AbstractSpecificationBuilder
                     ParameterValidator.builder()
                             .add(criteriaBuilder.equal(from.get("town"), parameters.get("town")), parameters.get("town"))
                             .add(criteriaBuilder.equal(from.get("country"), parameters.get("country")), parameters.get("country"))
-                            .add(criteriaBuilder.equal(from.get("name"), parameters.get("name")), parameters.get("name`"))
+                            .add(criteriaBuilder.equal(from.get("name"), parameters.get("name")), parameters.get("name"))
                             .build());
         });
     }

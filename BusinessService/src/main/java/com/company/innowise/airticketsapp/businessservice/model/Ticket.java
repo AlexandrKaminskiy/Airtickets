@@ -20,6 +20,7 @@ import java.util.Currency;
 @Entity
 public class Ticket extends PrimaryEntity {
 
+    //make cascade only for tests
     @ManyToOne(cascade = CascadeType.ALL)
     private Airport from;
 

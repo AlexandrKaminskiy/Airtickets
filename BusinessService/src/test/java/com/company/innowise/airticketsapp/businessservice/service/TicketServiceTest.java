@@ -56,7 +56,7 @@ class TicketServiceTest {
         Assertions.assertEquals(2, ticketService.getAll(new HashMap<>(Map.of("companyName", "Belavia",
                 "firstname","alexandr",
                 "to", "Minsk",
-                "timeArrive", LocalDateTime.now())))
+                "timeArrive", LocalDateTime.of(2020, 1, 1, 1,1,1))))
                 .size());
     }
 
