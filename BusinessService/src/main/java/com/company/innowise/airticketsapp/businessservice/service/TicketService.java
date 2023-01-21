@@ -42,9 +42,8 @@ public class TicketService {
         return ticketRepository.getReferenceById(id);
     }
 
-    public Ticket addTicket(Ticket ticket) {
+    public void addTicket(Ticket ticket) {
         ticketRepository.save(ticket);
-        return ticket;
     }
 
     public void deleteTicket(long id) {
@@ -54,16 +53,27 @@ public class TicketService {
     private Specification<Ticket> getSpecification(Map<String, Object> parameters) {
         return (root, query, criteriaBuilder) -> {
             Specification<Ticket> ticketSpecification = ticketSpecificationBuilder.getSpecification(Optional.empty(), parameters);
-            Join<Ticket, Airport> ticketAirportJoin = root.join("airport");
-            Specification<Ticket> airportSpecification = airportSpecificationBuilder.getSpecification(Optional.of(ticketAirportJoin), parameters);
+            Object to = parameters.get("to");
+            Object from = parameters.get("from");
+
+            Join<Ticket, Airport> ticketAirportJoinTo = root.join("to");
+            parameters.put("town", to);
+            Specification<Ticket> airportSpecificationTo = airportSpecificationBuilder.getSpecification(Optional.of(ticketAirportJoinTo), parameters);
+
+            Join<Ticket, Airport> ticketAirportJoinFrom = root.join("from");
+            parameters.put("town", from);
+            Specification<Ticket> airportSpecificationFrom = airportSpecificationBuilder.getSpecification(Optional.of(ticketAirportJoinFrom), parameters);
+
             Join<Ticket, Passenger> ticketPassengerJoin = root.join(Ticket_.PASSENGER);
             Specification<Ticket> passengerSpecification = passengerSpecificationBuilder.getSpecification(Optional.of(ticketPassengerJoin), parameters);
             Join<Ticket, Company> ticketCompanyJoin = root.join(Ticket_.COMPANY);
             Specification<Ticket> companySpecification = companySpecificationBuilder.getSpecification(Optional.of(ticketCompanyJoin), parameters);
+
             Specification<Ticket> specification = ticketSpecification
-                    .and(airportSpecification)
+                    .and(airportSpecificationFrom)
                     .and(passengerSpecification)
-                    .and(companySpecification);
+                    .and(companySpecification)
+                    .and(airportSpecificationTo);
             return specification.toPredicate(root, query, criteriaBuilder);
         };
     }

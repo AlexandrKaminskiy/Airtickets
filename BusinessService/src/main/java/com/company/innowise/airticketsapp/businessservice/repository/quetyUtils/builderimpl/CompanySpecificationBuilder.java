@@ -21,7 +21,7 @@ public class CompanySpecificationBuilder implements AbstractSpecificationBuilder
             From<X,?> from = xCompanyJoin.isPresent() ? xCompanyJoin.get() : root;
             return criteriaBuilder.and(
                     ParameterValidator.builder()
-                            .add(criteriaBuilder.equal(from.get("name"), parameters.get("name")), parameters.get("name"))
+                            .add(criteriaBuilder.equal(from.get("companyName"), parameters.get("companyName")), parameters.get("companyName"))
                             .build());
         });
     }

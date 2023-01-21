@@ -9,6 +9,7 @@ import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 
@@ -21,8 +22,8 @@ public class TicketSpecificationBuilder implements AbstractSpecificationBuilder<
             From<X,?> from = extRoot.isPresent() ? extRoot.get() : root;
             return criteriaBuilder.and(
                     ParameterValidator.builder()
-                            .add(criteriaBuilder.greaterThanOrEqualTo(from.get(Ticket_.TIME_ARRIVE), (LocalDate) parameters.get("from")), parameters.get("from"))
-                            .add(criteriaBuilder.lessThanOrEqualTo(from.get(Ticket_.TIME_DEPARTURE), (LocalDate) parameters.get("to")), parameters.get("to"))
+                            .add(criteriaBuilder.greaterThanOrEqualTo(from.get(Ticket_.TIME_ARRIVE), (LocalDateTime) parameters.get("timeArrive")), parameters.get("timeArrive"))
+                            .add(criteriaBuilder.lessThanOrEqualTo(from.get(Ticket_.TIME_DEPARTURE), (LocalDateTime) parameters.get("timeDeparture")), parameters.get("timeDeparture"))
                             .add(criteriaBuilder.equal(from.get(Ticket_.PRICE), parameters.get("price")), parameters.get("price"))
                             .build());
         });

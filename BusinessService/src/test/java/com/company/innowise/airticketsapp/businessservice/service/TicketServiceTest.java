@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Currency;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,8 +34,8 @@ class TicketServiceTest {
     void getTicket() {
         Ticket ticket = new Ticket();
         ticket.setPrice(BigDecimal.valueOf(1000));
-        ticket.setTimeArrive(LocalDate.now());
-        ticket.setTimeDeparture(LocalDate.now());
+        ticket.setTimeArrive(LocalDateTime.now());
+        ticket.setTimeDeparture(LocalDateTime.now());
         Passenger passenger = new Passenger();
         passenger.setBirthdate(LocalDate.now());
         passenger.setFirstname("alexandr");
@@ -49,10 +50,14 @@ class TicketServiceTest {
         ticket.setTo(airport);
         ticket.setFrom(airport);
         Company company = new Company();
-        company.setName("Belavia");
+        company.setCompanyName("Belavia");
         ticket.setCompany(company);
         ticketService.addTicket(ticket);
-        Assertions.assertEquals(1, ticketService.getAll(new HashMap<>(Map.of())).size());
+        Assertions.assertEquals(2, ticketService.getAll(new HashMap<>(Map.of("companyName", "Belavia",
+                "firstname","alexandr",
+                "to", "Minsk",
+                "timeArrive", LocalDateTime.now())))
+                .size());
     }
 
     @Test

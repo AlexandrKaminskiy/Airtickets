@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Long>, JpaSpecificationExecutor<Company> {
-    List<Company> findCompaniesByName(String name);
+    List<Company> findCompaniesByCompanyName(String name);
 }

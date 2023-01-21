@@ -13,6 +13,6 @@ import lombok.Setter;
 @Entity
 public class Company extends PrimaryEntity {
 
-    String name;
+    String companyName;
 
 }
