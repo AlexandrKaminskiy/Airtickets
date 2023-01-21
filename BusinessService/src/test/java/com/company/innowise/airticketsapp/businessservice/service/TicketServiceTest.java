@@ -23,14 +23,6 @@ class TicketServiceTest {
     private TicketService ticketService;
 
     @Test
-    void getAll() {
-    }
-
-    @Test
-    void testGetAll() {
-    }
-
-    @Test
     void getTicket() {
         Ticket ticket = new Ticket();
         ticket.setPrice(BigDecimal.valueOf(1000));
@@ -60,11 +52,4 @@ class TicketServiceTest {
                 .size());
     }
 
-    @Test
-    void addTicket() {
-    }
-
-    @Test
-    void deleteTicket() {
-    }
 }
