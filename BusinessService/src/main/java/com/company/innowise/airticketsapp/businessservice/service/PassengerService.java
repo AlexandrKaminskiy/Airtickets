@@ -3,8 +3,8 @@ package com.company.innowise.airticketsapp.businessservice.service;
 import com.company.innowise.airticketsapp.businessservice.model.Passenger;
 import com.company.innowise.airticketsapp.businessservice.model.Ticket;
 import com.company.innowise.airticketsapp.businessservice.repository.PassengerRepository;
-import com.company.innowise.airticketsapp.businessservice.repository.quetyUtils.builderimpl.PassengerSpecificationBuilder;
-import com.company.innowise.airticketsapp.businessservice.repository.quetyUtils.builderimpl.TicketSpecificationBuilder;
+import com.company.innowise.airticketsapp.businessservice.repository.quetyUtils.builderimpl.PassengerSpecificationFactory;
+import com.company.innowise.airticketsapp.businessservice.repository.quetyUtils.builderimpl.TicketSpecificationFactory;
 import jakarta.persistence.criteria.Join;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -19,8 +19,8 @@ public class PassengerService {
 
     private final PassengerRepository passengerRepository;
 
-    private final PassengerSpecificationBuilder passengerSpecificationBuilder;
-    private final TicketSpecificationBuilder ticketSpecificationBuilder;
+    private final PassengerSpecificationFactory passengerSpecificationBuilder;
+    private final TicketSpecificationFactory ticketSpecificationBuilder;
 
     public List<Passenger> getAll() {
         return passengerRepository.findAll();

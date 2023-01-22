@@ -2,10 +2,10 @@ package com.company.innowise.airticketsapp.businessservice.service;
 
 import com.company.innowise.airticketsapp.businessservice.model.*;
 import com.company.innowise.airticketsapp.businessservice.repository.TicketRepository;
-import com.company.innowise.airticketsapp.businessservice.repository.quetyUtils.builderimpl.AirportSpecificationBuilder;
-import com.company.innowise.airticketsapp.businessservice.repository.quetyUtils.builderimpl.CompanySpecificationBuilder;
-import com.company.innowise.airticketsapp.businessservice.repository.quetyUtils.builderimpl.PassengerSpecificationBuilder;
-import com.company.innowise.airticketsapp.businessservice.repository.quetyUtils.builderimpl.TicketSpecificationBuilder;
+import com.company.innowise.airticketsapp.businessservice.repository.quetyUtils.builderimpl.AirportSpecificationFactory;
+import com.company.innowise.airticketsapp.businessservice.repository.quetyUtils.builderimpl.CompanySpecificationFactory;
+import com.company.innowise.airticketsapp.businessservice.repository.quetyUtils.builderimpl.PassengerSpecificationFactory;
+import com.company.innowise.airticketsapp.businessservice.repository.quetyUtils.builderimpl.TicketSpecificationFactory;
 import jakarta.persistence.criteria.Join;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,13 +21,13 @@ public class TicketService {
 
     private final TicketRepository ticketRepository;
 
-    private final TicketSpecificationBuilder ticketSpecificationBuilder;
+    private final TicketSpecificationFactory ticketSpecificationBuilder;
 
-    private final PassengerSpecificationBuilder passengerSpecificationBuilder;
+    private final PassengerSpecificationFactory passengerSpecificationBuilder;
 
-    private final AirportSpecificationBuilder airportSpecificationBuilder;
+    private final AirportSpecificationFactory airportSpecificationBuilder;
 
-    private final CompanySpecificationBuilder companySpecificationBuilder;
+    private final CompanySpecificationFactory companySpecificationBuilder;
 
     public List<Ticket> getAll() {
         return ticketRepository.findAll();
