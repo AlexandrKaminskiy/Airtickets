@@ -9,6 +9,7 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -24,7 +25,8 @@ public class Passenger extends PrimaryEntity {
     private String username;
 
     @Enumerated(EnumType.STRING)
-    private Role role;
+    @ElementCollection
+    private Set<Role> roles;
 
     private String passport;
 

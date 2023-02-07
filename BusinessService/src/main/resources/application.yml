@@ -4,9 +4,16 @@ spring:
     username: postgres
     password: postgres
   jpa:
-    generate-ddl: true
+    generate-ddl: false
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: validate
+  flyway:
+    user: postgres
+    password: postgres
+    schemas: public
+    url: jdbc:postgresql://localhost:5432/airtickets
 logging:
   level:
     sql: debug
+
+
