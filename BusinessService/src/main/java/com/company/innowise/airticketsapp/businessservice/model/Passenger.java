@@ -5,17 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Passenger extends PrimaryEntity {
 
     private String email;
@@ -24,6 +21,7 @@ public class Passenger extends PrimaryEntity {
 
     private String username;
 
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     @ElementCollection
     private Set<Role> roles;
@@ -37,6 +35,6 @@ public class Passenger extends PrimaryEntity {
     private LocalDate birthdate;
 
     @OneToMany(mappedBy = "passenger")
-    private List<Ticket> ticket;
+    private Set<Ticket> tickets;
 
 }
