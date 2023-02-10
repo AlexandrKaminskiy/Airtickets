@@ -1,12 +1,15 @@
 package com.company.innowise.airticketsapp.businessservice.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 @Getter
 @Setter
@@ -26,6 +29,6 @@ public class Flight extends PrimaryEntity {
     private LocalDateTime timeArrive;
 
     @OneToMany(mappedBy = "flight")
-    private Set<Ticket> tickets;
+    private List<Ticket> tickets;
 
 }

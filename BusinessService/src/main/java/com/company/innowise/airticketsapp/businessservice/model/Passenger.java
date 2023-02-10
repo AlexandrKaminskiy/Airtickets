@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -35,6 +36,6 @@ public class Passenger extends PrimaryEntity {
     private LocalDate birthdate;
 
     @OneToMany(mappedBy = "passenger")
-    private Set<Ticket> tickets;
+    private List<Ticket> tickets;
 
 }
