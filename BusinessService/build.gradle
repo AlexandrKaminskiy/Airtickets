@@ -21,12 +21,18 @@ repositories {
 
 ext {
     flywayVersion = '9.14.1'
+    hiberateVersion = '8.0.0.Final'
+    modelmapperVersion = '2.1.1'
+    modelgenVer = '6.1.6.Final'
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation group: 'org.modelmapper', name: 'modelmapper', version: "${modelmapperVersion}"
+    annotationProcessor('org.hibernate:hibernate-jpamodelgen:6.1.6.Final')
+    implementation group: 'org.hibernate.validator', name: 'hibernate-validator', version: "${hiberateVersion}"
     implementation group: 'org.flywaydb', name: 'flyway-core', version: "${flywayVersion}"
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
@@ -37,4 +43,16 @@ dependencies {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.annotationProcessorGeneratedSourcesDirectory = file("src/generated/java")
+}
+
+sourceSets {
+    generated {
+        java {
+            srcDirs = ['src/generated/java']
+        }
+    }
 }
