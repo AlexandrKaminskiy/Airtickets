@@ -2,10 +2,9 @@ package com.company.innowise.airticketsapp.businessservice.service;
 
 import com.company.innowise.airticketsapp.businessservice.model.*;
 import com.company.innowise.airticketsapp.businessservice.repository.TicketRepository;
-import com.company.innowise.airticketsapp.businessservice.repository.quetyUtils.builderimpl.AirportSpecificationBuilder;
-import com.company.innowise.airticketsapp.businessservice.repository.quetyUtils.builderimpl.CompanySpecificationBuilder;
-import com.company.innowise.airticketsapp.businessservice.repository.quetyUtils.builderimpl.PassengerSpecificationBuilder;
-import com.company.innowise.airticketsapp.businessservice.repository.quetyUtils.builderimpl.TicketSpecificationBuilder;
+import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.AirportSpecificationBuilder;
+import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.PassengerSpecificationBuilder;
+import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.TicketSpecificationBuilder;
 import jakarta.persistence.criteria.Join;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -26,8 +25,6 @@ public class TicketService {
     private final PassengerSpecificationBuilder passengerSpecificationBuilder;
 
     private final AirportSpecificationBuilder airportSpecificationBuilder;
-
-    private final CompanySpecificationBuilder companySpecificationBuilder;
 
     public List<Ticket> getAll() {
         return ticketRepository.findAll();
@@ -66,13 +63,10 @@ public class TicketService {
 
             Join<Ticket, Passenger> ticketPassengerJoin = root.join(Ticket_.PASSENGER);
             Specification<Ticket> passengerSpecification = passengerSpecificationBuilder.getSpecification(Optional.of(ticketPassengerJoin), parameters);
-            Join<Ticket, Company> ticketCompanyJoin = root.join(Ticket_.COMPANY);
-            Specification<Ticket> companySpecification = companySpecificationBuilder.getSpecification(Optional.of(ticketCompanyJoin), parameters);
 
             Specification<Ticket> specification = ticketSpecification
                     .and(airportSpecificationFrom)
                     .and(passengerSpecification)
-                    .and(companySpecification)
                     .and(airportSpecificationTo);
             return specification.toPredicate(root, query, criteriaBuilder);
         };

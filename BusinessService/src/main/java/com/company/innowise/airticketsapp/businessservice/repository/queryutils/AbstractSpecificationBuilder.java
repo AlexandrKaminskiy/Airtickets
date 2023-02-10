@@ -1,8 +1,7 @@
-package com.company.innowise.airticketsapp.businessservice.repository.quetyUtils;
+package com.company.innowise.airticketsapp.businessservice.repository.queryutils;
 
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
-
 import java.util.Map;
 import java.util.Optional;
 
