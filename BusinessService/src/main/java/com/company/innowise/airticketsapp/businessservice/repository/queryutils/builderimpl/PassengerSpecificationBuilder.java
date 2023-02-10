@@ -1,13 +1,13 @@
 package com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl;
 
 import com.company.innowise.airticketsapp.businessservice.model.Passenger;
-import com.company.innowise.airticketsapp.businessservice.model.Passenger_;
 import com.company.innowise.airticketsapp.businessservice.repository.queryutils.AbstractSpecificationBuilder;
 import com.company.innowise.airticketsapp.businessservice.repository.queryutils.ParameterValidator;
 import jakarta.persistence.criteria.From;
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+
 import java.util.Map;
 import java.util.Optional;
 
