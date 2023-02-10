@@ -25,11 +25,11 @@ CREATE TABLE flight
     id             INTEGER NOT NULL,
     from_id        INTEGER,
     to_id          INTEGER,
-    time_departure TIMESTAMP,
-    time_arrive    TIMESTAMP,
-    CONSTRAINT pk_flight PRIMARY KEY (id),
+    time_departure TIMESTAMP with time zone,
+    time_arrive    TIMESTAMP with time zone,
+    CONSTRAINT pk_flight      PRIMARY KEY (id),
     CONSTRAINT fk_flight_from FOREIGN KEY (from_id) REFERENCES airport (id),
-    CONSTRAINT fk_flight_to FOREIGN KEY (to_id) REFERENCES airport (id)
+    CONSTRAINT fk_flight_to   FOREIGN KEY (to_id) REFERENCES airport (id)
 );
 
 CREATE TABLE passenger_roles
@@ -41,11 +41,11 @@ CREATE TABLE passenger_roles
 
 CREATE TABLE ticket
 (
-    id             INTEGER NOT NULL,
-    price          DECIMAL,
-    flight_id      INT,
-    passenger_id   INT,
-    CONSTRAINT pk_ticket PRIMARY KEY (id),
-    CONSTRAINT fk_ticket_on_flight FOREIGN KEY (flight_id) REFERENCES flight (id),
+    id           INTEGER NOT NULL,
+    price        DECIMAL,
+    flight_id    INT,
+    passenger_id INT,
+    CONSTRAINT pk_ticket              PRIMARY KEY (id),
+    CONSTRAINT fk_ticket_on_flight    FOREIGN KEY (flight_id) REFERENCES flight (id),
     CONSTRAINT fk_ticket_on_passenger FOREIGN KEY (passenger_id) REFERENCES passenger (id)
 );
