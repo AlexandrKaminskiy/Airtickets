@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/airtickets
+    username: postgres
+    password: postgres
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    user: postgres
+    password: postgres
+    schemas: public
+    url: jdbc:postgresql://localhost:5432/airtickets
