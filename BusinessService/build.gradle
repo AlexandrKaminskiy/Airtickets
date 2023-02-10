@@ -9,7 +9,6 @@ group = 'com.company.innowise.airticketsapp'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
-
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
@@ -20,11 +19,15 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    flywayVersion = '9.14.1'
+}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation group: 'org.flywaydb', name: 'flyway-core', version: '9.14.1'
+    implementation group: 'org.flywaydb', name: 'flyway-core', version: "${flywayVersion}"
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
