@@ -6,14 +6,14 @@ import com.company.innowise.airticketsapp.businessservice.repository.queryutils.
 import jakarta.persistence.criteria.From;
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
-
+import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
-
 import static com.company.innowise.airticketsapp.businessservice.model.Flight_.TIME_ARRIVE;
 import static com.company.innowise.airticketsapp.businessservice.model.Flight_.TIME_DEPARTURE;
 
+@Component
 public class FlightSpecificationBuilder implements AbstractSpecificationBuilder<Flight> {
 
     @Override
@@ -32,4 +32,5 @@ public class FlightSpecificationBuilder implements AbstractSpecificationBuilder<
                             .build());
         });
     }
+
 }

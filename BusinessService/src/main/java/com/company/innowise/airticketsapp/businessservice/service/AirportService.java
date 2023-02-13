@@ -1,12 +1,14 @@
 package com.company.innowise.airticketsapp.businessservice.service;
 
+import com.company.innowise.airticketsapp.businessservice.dto.AirportDto;
+import com.company.innowise.airticketsapp.businessservice.mapper.impl.AirportMapper;
 import com.company.innowise.airticketsapp.businessservice.model.Airport;
 import com.company.innowise.airticketsapp.businessservice.repository.AirportRepository;
 import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.AirportSpecificationBuilder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -17,23 +19,29 @@ public class AirportService {
 
     private final AirportRepository airportRepository;
     private final AirportSpecificationBuilder specificationBuilder;
+    private final AirportMapper airportMapper;
 
-    public List<Airport> getAll() {
-        return airportRepository.findAll();
+    public List<AirportDto> getAll(int size, int page) {
+        return airportRepository.findAll(Pageable.ofSize(size).withPage(page)).stream()
+                .map(airportMapper::toDto)
+                .toList();
     }
 
-    public List<Airport> getAll(Map<String, Object> parameters) {
+    public List<AirportDto> getAll(Map<String, Object> parameters, int size, int page) {
         Specification<Airport> specification = getSpecification(parameters);
-        return airportRepository.findAll(specification);
+        return airportRepository.findAll(specification, Pageable.ofSize(size).withPage(page)).stream()
+                .map(airportMapper::toDto)
+                .toList();
     }
 
-    public Airport getAirport(Long id) {
-        return airportRepository.getReferenceById(id);
+    public AirportDto getAirport(long id) {
+        return airportMapper.toDto(airportRepository.getReferenceById(id));
     }
 
-    public Airport addAirport(Airport airport) {
+    public AirportDto addAirport(AirportDto airportDto) {
+        Airport airport = airportMapper.toModel(airportDto);
         airportRepository.save(airport);
-        return airport;
+        return airportDto;
     }
 
     public void deleteAirport(long id) {

@@ -31,6 +31,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation group: 'org.modelmapper', name: 'modelmapper', version: "${modelmapperVersion}"
+    testImplementation 'org.projectlombok:lombok:1.18.22'
     annotationProcessor('org.hibernate:hibernate-jpamodelgen:6.1.6.Final')
     implementation group: 'org.hibernate.validator', name: 'hibernate-validator', version: "${hiberateVersion}"
     implementation group: 'org.flywaydb', name: 'flyway-core', version: "${flywayVersion}"
@@ -38,7 +39,7 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
+    //testImplementation 'org.springframework.security:spring-security-test'
 }
 
 tasks.named('test') {
