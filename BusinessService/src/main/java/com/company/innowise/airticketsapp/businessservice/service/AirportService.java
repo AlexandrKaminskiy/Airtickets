@@ -32,6 +32,10 @@ public class AirportService {
         return airportMapper.toDto(airportRepository.getReferenceById(id));
     }
 
+    public Airport getById(long id) {
+        return airportRepository.getReferenceById(id);
+    }
+
     public AirportDto addAirport(AirportDto airportDto) {
         Airport airport = airportMapper.toModel(airportDto);
         airportRepository.save(airport);

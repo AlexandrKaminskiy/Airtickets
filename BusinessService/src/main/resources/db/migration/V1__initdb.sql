@@ -44,12 +44,14 @@ CREATE TABLE ticket
 (
     id           SERIAL NOT NULL,
     price        DECIMAL,
+    seat_no      INTEGER,
     flight_id    INTEGER,
     passenger_id INTEGER,
     CONSTRAINT pk_ticket              PRIMARY KEY (id),
     CONSTRAINT fk_ticket_on_flight    FOREIGN KEY (flight_id) REFERENCES flight (id),
     CONSTRAINT fk_ticket_on_passenger FOREIGN KEY (passenger_id) REFERENCES passenger (id)
 );
+
 ALTER SEQUENCE airport_id_seq RENAME TO airport_seq;
 ALTER SEQUENCE flight_id_seq RENAME TO flight_seq;
 ALTER SEQUENCE passenger_id_seq RENAME TO passenger_seq;

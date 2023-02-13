@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 import static com.company.innowise.airticketsapp.businessservice.model.Flight_.TIME_ARRIVE;
 import static com.company.innowise.airticketsapp.businessservice.model.Flight_.TIME_DEPARTURE;
+import static com.company.innowise.airticketsapp.businessservice.model.PrimaryEntity_.ID;
 
 @Component
 public class FlightSpecificationBuilder implements AbstractSpecificationBuilder<Flight> {
@@ -29,6 +30,9 @@ public class FlightSpecificationBuilder implements AbstractSpecificationBuilder<
                             .add(criteriaBuilder.lessThanOrEqualTo(from.get(TIME_DEPARTURE),
                                     (LocalDateTime) parameters.get(TIME_DEPARTURE)),
                                     Optional.ofNullable(parameters.get(TIME_DEPARTURE)))
+                            .add(criteriaBuilder.equal(from.get(ID),
+                                            parameters.get(ID)),
+                                    Optional.ofNullable(parameters.get(ID)))
                             .build());
         });
     }

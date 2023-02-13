@@ -14,6 +14,7 @@ public class FlightMapper implements Mapper<Flight, FlightDto> {
     public FlightMapper() {
         modelMapper = new ModelMapper();
         modelMapper.createTypeMap(Flight.class, FlightDto.class);
+
         modelMapper.createTypeMap(FlightDto.class, Flight.class);
     }
 

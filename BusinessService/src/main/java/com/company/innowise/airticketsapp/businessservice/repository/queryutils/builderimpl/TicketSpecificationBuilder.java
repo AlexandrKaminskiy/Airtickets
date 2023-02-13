@@ -18,11 +18,16 @@ public class TicketSpecificationBuilder implements AbstractSpecificationBuilder<
     public <X> Specification<X> getSpecification(Optional<Join<X, Ticket>> extRoot, Map<String, Object> parameters) {
         return ((root, query, criteriaBuilder) -> {
             From<X,?> from = extRoot.isPresent() ? extRoot.get() : root;
+            String priceFrom = "priceFrom";
+            String priceTo = "priceTo";
             return criteriaBuilder.and(
                     ParameterValidator.builder()
-                            .add(criteriaBuilder.equal(from.get(PRICE),
-                                    parameters.get(PRICE)),
-                                    Optional.ofNullable(parameters.get(PRICE)))
+                            .add(criteriaBuilder.greaterThanOrEqualTo(from.get(PRICE),
+                                            (Double) parameters.get(priceFrom)),
+                                    Optional.ofNullable(parameters.get(priceFrom)))
+                            .add(criteriaBuilder.greaterThanOrEqualTo(from.get(PRICE),
+                                            (Double) parameters.get(priceTo)),
+                                    Optional.ofNullable(parameters.get(priceTo)))
                             .build());
         });
     }

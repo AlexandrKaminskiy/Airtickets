@@ -10,6 +10,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.company.innowise.airticketsapp.businessservice.model.Airport_.*;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/airport")
@@ -24,9 +26,9 @@ public class AirportController {
                                    @RequestParam(required = false) String country,
                                    @RequestParam(required = false) String name) {
         Map<String, Object> params = new HashMap<>();
-        params.compute("town", (k, v)-> town);
-        params.compute("country", (k, v)-> country);
-        params.compute("name", (k, v)-> name);
+        params.compute(TOWN, (k, v)-> town);
+        params.compute(COUNTRY, (k, v)-> country);
+        params.compute(NAME, (k, v)-> name);
         return airportService.getAll(params, size, page);
     }
 

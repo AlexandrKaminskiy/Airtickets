@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 public class FlightDto implements Serializable {
     private AirportDto from;
     private AirportDto to;
+    private int seatsCount;
     private LocalDateTime timeDeparture;
     private LocalDateTime timeArrive;
 }
