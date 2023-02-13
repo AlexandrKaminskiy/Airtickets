@@ -22,7 +22,7 @@ public class TicketSpecificationBuilder implements AbstractSpecificationBuilder<
                     ParameterValidator.builder()
                             .add(criteriaBuilder.equal(from.get(PRICE),
                                     parameters.get(PRICE)),
-                                    Optional.of(parameters.get(PRICE)))
+                                    Optional.ofNullable(parameters.get(PRICE)))
                             .build());
         });
     }

@@ -6,7 +6,7 @@ import com.company.innowise.airticketsapp.businessservice.model.Airport;
 import com.company.innowise.airticketsapp.businessservice.repository.AirportRepository;
 import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.AirportSpecificationBuilder;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -20,12 +20,6 @@ public class AirportService {
     private final AirportRepository airportRepository;
     private final AirportSpecificationBuilder specificationBuilder;
     private final AirportMapper airportMapper;
-
-    public List<AirportDto> getAll(int size, int page) {
-        return airportRepository.findAll(Pageable.ofSize(size).withPage(page)).stream()
-                .map(airportMapper::toDto)
-                .toList();
-    }
 
     public List<AirportDto> getAll(Map<String, Object> parameters, int size, int page) {
         Specification<Airport> specification = getSpecification(parameters);

@@ -25,10 +25,10 @@ public class FlightSpecificationBuilder implements AbstractSpecificationBuilder<
                     ParameterValidator.builder()
                             .add(criteriaBuilder.greaterThanOrEqualTo(from.get(TIME_ARRIVE),
                                     (LocalDateTime) parameters.get(TIME_ARRIVE)),
-                                    Optional.of(parameters.get(TIME_ARRIVE)))
+                                    Optional.ofNullable(parameters.get(TIME_ARRIVE)))
                             .add(criteriaBuilder.lessThanOrEqualTo(from.get(TIME_DEPARTURE),
                                     (LocalDateTime) parameters.get(TIME_DEPARTURE)),
-                                    Optional.of(parameters.get(TIME_DEPARTURE)))
+                                    Optional.ofNullable(parameters.get(TIME_DEPARTURE)))
                             .build());
         });
     }

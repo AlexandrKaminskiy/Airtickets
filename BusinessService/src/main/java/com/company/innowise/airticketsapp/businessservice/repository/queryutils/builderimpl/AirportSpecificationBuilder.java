@@ -22,13 +22,13 @@ public class AirportSpecificationBuilder implements AbstractSpecificationBuilder
                     ParameterValidator.builder()
                             .add(criteriaBuilder.equal(from.get(TOWN),
                                     parameters.get(TOWN)),
-                                    Optional.of(parameters.get(TOWN)))
+                                    Optional.ofNullable(parameters.get(TOWN)))
                             .add(criteriaBuilder.equal(from.get(COUNTRY),
                                     parameters.get(COUNTRY)),
-                                    Optional.of(parameters.get(COUNTRY)))
+                                    Optional.ofNullable(parameters.get(COUNTRY)))
                             .add(criteriaBuilder.equal(from.get(NAME),
                                     parameters.get(NAME)),
-                                    Optional.of(parameters.get(NAME)))
+                                    Optional.ofNullable(parameters.get(NAME)))
                             .build());
         });
     }

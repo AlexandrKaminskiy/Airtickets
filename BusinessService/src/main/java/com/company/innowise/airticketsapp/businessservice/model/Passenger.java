@@ -14,6 +14,7 @@ import java.util.Set;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@SequenceGenerator(name = "id_generator", sequenceName = "passenger_seq", allocationSize = 1)
 public class Passenger extends PrimaryEntity {
 
     private String email;

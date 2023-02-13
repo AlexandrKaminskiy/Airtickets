@@ -4,7 +4,9 @@ import com.company.innowise.airticketsapp.businessservice.dto.TicketDto;
 import com.company.innowise.airticketsapp.businessservice.mapper.Mapper;
 import com.company.innowise.airticketsapp.businessservice.model.Ticket;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TicketMapper implements Mapper<Ticket, TicketDto> {
 
     private ModelMapper modelMapper;

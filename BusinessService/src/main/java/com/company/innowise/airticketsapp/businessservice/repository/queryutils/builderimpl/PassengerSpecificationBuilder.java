@@ -22,13 +22,13 @@ public class PassengerSpecificationBuilder implements AbstractSpecificationBuild
                     ParameterValidator.builder()
                             .add(criteriaBuilder.equal(from.get(FIRSTNAME),
                                     parameters.get(FIRSTNAME)),
-                                    Optional.of(parameters.get(FIRSTNAME)))
+                                    Optional.ofNullable(parameters.get(FIRSTNAME)))
                             .add(criteriaBuilder.equal(from.get(LASTNAME),
                                     parameters.get(LASTNAME)),
-                                    Optional.of(parameters.get(LASTNAME)))
+                                    Optional.ofNullable(parameters.get(LASTNAME)))
                             .add(criteriaBuilder.equal(from.get(USERNAME),
                                     parameters.get(USERNAME)),
-                                    Optional.of(parameters.get(USERNAME)))
+                                    Optional.ofNullable(parameters.get(USERNAME)))
                             .build());
         });
     }

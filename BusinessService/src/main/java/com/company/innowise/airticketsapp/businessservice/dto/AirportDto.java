@@ -1,5 +1,6 @@
 package com.company.innowise.airticketsapp.businessservice.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.io.Serializable;
@@ -12,7 +13,13 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AirportDto implements Serializable {
+
+    @NotNull
     private String name;
+
+    @NotNull
     private String country;
+
+    @NotNull
     private String town;
 }

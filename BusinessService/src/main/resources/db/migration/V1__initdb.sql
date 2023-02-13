@@ -25,6 +25,7 @@ CREATE TABLE flight
     id             SERIAL NOT NULL,
     from_id        INTEGER,
     to_id          INTEGER,
+    seats_count    INTEGER,
     time_departure TIMESTAMP with time zone,
     time_arrive    TIMESTAMP with time zone,
     CONSTRAINT pk_flight      PRIMARY KEY (id),
@@ -49,3 +50,7 @@ CREATE TABLE ticket
     CONSTRAINT fk_ticket_on_flight    FOREIGN KEY (flight_id) REFERENCES flight (id),
     CONSTRAINT fk_ticket_on_passenger FOREIGN KEY (passenger_id) REFERENCES passenger (id)
 );
+ALTER SEQUENCE airport_id_seq RENAME TO airport_seq;
+ALTER SEQUENCE flight_id_seq RENAME TO flight_seq;
+ALTER SEQUENCE passenger_id_seq RENAME TO passenger_seq;
+ALTER SEQUENCE ticket_id_seq RENAME TO ticket_seq;

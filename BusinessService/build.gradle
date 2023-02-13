@@ -24,11 +24,13 @@ ext {
     hiberateVersion = '8.0.0.Final'
     modelmapperVersion = '2.1.1'
     modelgenVer = '6.1.6.Final'
+    swaggerVer = '3.0.0'
+    swaggerUiVer = '2.0.2'
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
+//    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation group: 'org.modelmapper', name: 'modelmapper', version: "${modelmapperVersion}"
     testImplementation 'org.projectlombok:lombok:1.18.22'
@@ -38,6 +40,12 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
+
+    implementation group: 'io.springfox', name: 'springfox-swagger2', version: "${swaggerVer}"
+    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: "${swaggerVer}"
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: "${swaggerUiVer}"
+    implementation group: 'org.hibernate', name: 'hibernate-validator', version: "${hiberateVersion}"
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     //testImplementation 'org.springframework.security:spring-security-test'
 }
