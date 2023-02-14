@@ -16,10 +16,10 @@ public class TicketController {
 
     private final TicketService ticketService;
 
-    @GetMapping("/{flightId}")
+    @GetMapping("/flight/{flightId}")
     public List<TicketDto> getAll(@PathVariable Integer flightId,
-                                  @RequestParam(defaultValue = "10", required = false) int size,
-                                  @RequestParam(defaultValue = "0", required = false) int page,
+                                  @RequestParam(defaultValue = "10", required = false) Integer size,
+                                  @RequestParam(defaultValue = "0", required = false) Integer page,
                                   @RequestParam(required = false) Double priceFrom,
                                   @RequestParam(required = false) Double priceTo) {
 
@@ -29,5 +29,10 @@ public class TicketController {
         params.compute("priceTo", (k, v) -> priceTo);
         params.compute("id", (k, v) -> flightId);
         return ticketService.getAll(params, size, page);
+    }
+
+    @GetMapping("/{id}")
+    public TicketDto getTicket(@PathVariable Integer id) {
+        return ticketService.getTicket(id);
     }
 }

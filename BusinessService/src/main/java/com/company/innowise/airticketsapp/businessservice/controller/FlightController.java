@@ -22,8 +22,8 @@ public class FlightController {
     private final FlightService flightService;
 
     @GetMapping("/")
-    public List<FlightDto> getAll(@RequestParam(defaultValue = "10", required = false) int size,
-                                  @RequestParam(defaultValue = "0", required = false) int page,
+    public List<FlightDto> getAll(@RequestParam(defaultValue = "10", required = false) Integer size,
+                                  @RequestParam(defaultValue = "0", required = false) Integer page,
                                   @RequestParam(required = false) String to,
                                   @RequestParam(required = false) String from,
                                   @RequestParam(required = false) LocalDateTime timeDeparture,
@@ -38,7 +38,7 @@ public class FlightController {
     }
 
     @GetMapping("/{id}")
-    public FlightDto getOne(@PathVariable long id) {
+    public FlightDto getOne(@PathVariable Integer id) {
         return flightService.getFlight(id);
     }
 
@@ -48,7 +48,7 @@ public class FlightController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteFlight(@PathVariable long id) {
+    public void deleteFlight(@PathVariable Integer id) {
         flightService.deleteFlight(id);
     }
 }

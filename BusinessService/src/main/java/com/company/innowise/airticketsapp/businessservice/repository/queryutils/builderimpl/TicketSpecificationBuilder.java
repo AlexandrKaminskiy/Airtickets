@@ -7,6 +7,8 @@ import jakarta.persistence.criteria.From;
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Optional;
 import static com.company.innowise.airticketsapp.businessservice.model.Ticket_.PRICE;
@@ -23,10 +25,10 @@ public class TicketSpecificationBuilder implements AbstractSpecificationBuilder<
             return criteriaBuilder.and(
                     ParameterValidator.builder()
                             .add(criteriaBuilder.greaterThanOrEqualTo(from.get(PRICE),
-                                            (Double) parameters.get(priceFrom)),
+                                            BigDecimal.valueOf((Double) parameters.get(priceFrom))),
                                     Optional.ofNullable(parameters.get(priceFrom)))
-                            .add(criteriaBuilder.greaterThanOrEqualTo(from.get(PRICE),
-                                            (Double) parameters.get(priceTo)),
+                            .add(criteriaBuilder.lessThanOrEqualTo(from.get(PRICE),
+                                            BigDecimal.valueOf((Double) parameters.get(priceTo))),
                                     Optional.ofNullable(parameters.get(priceTo)))
                             .build());
         });

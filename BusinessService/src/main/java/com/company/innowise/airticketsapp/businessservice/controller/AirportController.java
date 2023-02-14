@@ -20,8 +20,8 @@ public class AirportController {
     private final AirportService airportService;
 
     @GetMapping("/")
-    public List<AirportDto> getAll(@RequestParam(defaultValue = "10", required = false) int size,
-                                   @RequestParam(defaultValue = "0", required = false) int page,
+    public List<AirportDto> getAll(@RequestParam(defaultValue = "10", required = false) Integer size,
+                                   @RequestParam(defaultValue = "0", required = false) Integer page,
                                    @RequestParam(required = false) String town,
                                    @RequestParam(required = false) String country,
                                    @RequestParam(required = false) String name) {
@@ -33,7 +33,7 @@ public class AirportController {
     }
 
     @GetMapping("/{id}")
-    public AirportDto getOne(@PathVariable long id) {
+    public AirportDto getOne(@PathVariable Integer id) {
         return airportService.getAirport(id);
     }
 
@@ -43,7 +43,7 @@ public class AirportController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAirport(@PathVariable long id) {
+    public void deleteAirport(@PathVariable Integer id) {
         airportService.deleteAirport(id);
     }
 

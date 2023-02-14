@@ -7,16 +7,13 @@ import com.company.innowise.airticketsapp.businessservice.model.Passenger;
 import com.company.innowise.airticketsapp.businessservice.model.Ticket;
 import com.company.innowise.airticketsapp.businessservice.model.Ticket_;
 import com.company.innowise.airticketsapp.businessservice.repository.TicketRepository;
-import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.AirportSpecificationBuilder;
 import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.FlightSpecificationBuilder;
-import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.PassengerSpecificationBuilder;
 import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.TicketSpecificationBuilder;
 import jakarta.persistence.criteria.Join;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,12 +25,8 @@ import java.util.Optional;
 public class TicketService {
 
     private final TicketRepository ticketRepository;
-
     private final TicketSpecificationBuilder ticketSpecificationBuilder;
-
-    private final PassengerSpecificationBuilder passengerSpecificationBuilder;
     private final FlightSpecificationBuilder flightSpecificationBuilder;
-    private final AirportSpecificationBuilder airportSpecificationBuilder;
     private final TicketMapper ticketMapper;
 
     public void purchaseTicket(Passenger passenger, Integer ticketId) {
