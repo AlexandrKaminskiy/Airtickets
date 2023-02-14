@@ -26,6 +26,7 @@ ext {
     modelgenVer = '6.1.6.Final'
     swaggerVer = '3.0.0'
     swaggerUiVer = '2.0.2'
+    jwtVersion = '4.2.2'
 }
 
 dependencies {
@@ -40,7 +41,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
-
+    implementation group: 'com.auth0', name: 'java-jwt', version: "${jwtVersion}"
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: "${swaggerVer}"
     implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: "${swaggerVer}"
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: "${swaggerUiVer}"
