@@ -29,15 +29,15 @@ CREATE TABLE flight
     time_departure TIMESTAMP with time zone,
     time_arrive    TIMESTAMP with time zone,
     CONSTRAINT pk_flight      PRIMARY KEY (id),
-    CONSTRAINT fk_flight_from FOREIGN KEY (from_id) REFERENCES airport (id),
-    CONSTRAINT fk_flight_to   FOREIGN KEY (to_id) REFERENCES airport (id)
+    CONSTRAINT fk_flight_from FOREIGN KEY (from_id) REFERENCES airport (id) ON DELETE SET NULL,
+    CONSTRAINT fk_flight_to   FOREIGN KEY (to_id) REFERENCES airport (id) ON DELETE SET NULL
 );
 
 CREATE TABLE passenger_roles
 (
     passenger_id SERIAL NOT NULL,
     role         VARCHAR(10),
-    CONSTRAINT fk_passenger_roles_on_passenger FOREIGN KEY (passenger_id) REFERENCES passenger (id)
+    CONSTRAINT fk_passenger_roles_on_passenger FOREIGN KEY (passenger_id) REFERENCES passenger (id) ON DELETE CASCADE
 );
 
 CREATE TABLE ticket
@@ -48,8 +48,8 @@ CREATE TABLE ticket
     flight_id    INTEGER,
     passenger_id INTEGER,
     CONSTRAINT pk_ticket              PRIMARY KEY (id),
-    CONSTRAINT fk_ticket_on_flight    FOREIGN KEY (flight_id) REFERENCES flight (id),
-    CONSTRAINT fk_ticket_on_passenger FOREIGN KEY (passenger_id) REFERENCES passenger (id)
+    CONSTRAINT fk_ticket_on_flight    FOREIGN KEY (flight_id) REFERENCES flight (id) ON DELETE CASCADE,
+    CONSTRAINT fk_ticket_on_passenger FOREIGN KEY (passenger_id) REFERENCES passenger (id) ON DELETE SET NULL
 );
 
 ALTER SEQUENCE airport_id_seq RENAME TO airport_seq;

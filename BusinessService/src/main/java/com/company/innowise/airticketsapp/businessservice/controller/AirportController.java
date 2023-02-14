@@ -1,6 +1,7 @@
 package com.company.innowise.airticketsapp.businessservice.controller;
 
 import com.company.innowise.airticketsapp.businessservice.dto.AirportDto;
+import com.company.innowise.airticketsapp.businessservice.model.Airport;
 import com.company.innowise.airticketsapp.businessservice.service.AirportService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +21,11 @@ public class AirportController {
     private final AirportService airportService;
 
     @GetMapping("/")
-    public List<AirportDto> getAll(@RequestParam(defaultValue = "10", required = false) Integer size,
-                                   @RequestParam(defaultValue = "0", required = false) Integer page,
-                                   @RequestParam(required = false) String town,
-                                   @RequestParam(required = false) String country,
-                                   @RequestParam(required = false) String name) {
+    public List<Airport> getAll(@RequestParam(defaultValue = "10", required = false) Integer size,
+                                @RequestParam(defaultValue = "0", required = false) Integer page,
+                                @RequestParam(required = false) String town,
+                                @RequestParam(required = false) String country,
+                                @RequestParam(required = false) String name) {
         Map<String, Object> params = new HashMap<>();
         params.compute(TOWN, (k, v)-> town);
         params.compute(COUNTRY, (k, v)-> country);
@@ -33,7 +34,7 @@ public class AirportController {
     }
 
     @GetMapping("/{id}")
-    public AirportDto getOne(@PathVariable Integer id) {
+    public Airport getOne(@PathVariable Integer id) {
         return airportService.getAirport(id);
     }
 

@@ -11,11 +11,13 @@ import java.util.Map;
 
 @ControllerAdvice
 public class BusinessExceptionHandler {
-    @ExceptionHandler(Exception.class)
+
+    @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Object> handleCityNotFoundException() {
         Map<String, Object> body = new HashMap<>();
         body.put("timestamp", LocalDateTime.now());
         body.put("message", "Entity not found");
         return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
     }
+
 }

@@ -27,7 +27,6 @@ public class TicketController {
         params.compute("flightId", (k, v) -> flightId);
         params.compute("priceFrom", (k, v) -> priceFrom);
         params.compute("priceTo", (k, v) -> priceTo);
-        params.compute("id", (k, v) -> flightId);
         return ticketService.getAll(params, size, page);
     }
 

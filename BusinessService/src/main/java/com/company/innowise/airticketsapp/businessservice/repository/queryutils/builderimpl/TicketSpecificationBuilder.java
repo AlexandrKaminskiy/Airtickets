@@ -8,9 +8,9 @@ import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.Map;
 import java.util.Optional;
+
 import static com.company.innowise.airticketsapp.businessservice.model.Ticket_.PRICE;
 
 @Component
@@ -24,11 +24,11 @@ public class TicketSpecificationBuilder implements AbstractSpecificationBuilder<
             String priceTo = "priceTo";
             return criteriaBuilder.and(
                     ParameterValidator.builder()
-                            .add(criteriaBuilder.greaterThanOrEqualTo(from.get(PRICE),
-                                            BigDecimal.valueOf((Double) parameters.get(priceFrom))),
+                            .add(criteriaBuilder.greaterThan(from.get(PRICE),
+                                            (Double) parameters.get(priceFrom)),
                                     Optional.ofNullable(parameters.get(priceFrom)))
-                            .add(criteriaBuilder.lessThanOrEqualTo(from.get(PRICE),
-                                            BigDecimal.valueOf((Double) parameters.get(priceTo))),
+                            .add(criteriaBuilder.lessThan(from.get(PRICE),
+                                            (Double) parameters.get(priceTo)),
                                     Optional.ofNullable(parameters.get(priceTo)))
                             .build());
         });

@@ -21,15 +21,13 @@ public class AirportService {
     private final AirportSpecificationBuilder specificationBuilder;
     private final AirportMapper airportMapper;
 
-    public List<AirportDto> getAll(Map<String, Object> parameters, int size, int page) {
+    public List<Airport> getAll(Map<String, Object> parameters, int size, int page) {
         Specification<Airport> specification = getSpecification(parameters);
-        return airportRepository.findAll(specification, Pageable.ofSize(size).withPage(page)).stream()
-                .map(airportMapper::toDto)
-                .toList();
+        return airportRepository.findAll(specification, Pageable.ofSize(size).withPage(page)).toList();
     }
 
-    public AirportDto getAirport(long id) {
-        return airportMapper.toDto(airportRepository.getReferenceById(id));
+    public Airport getAirport(long id) {
+        return airportRepository.getReferenceById(id);
     }
 
     public Airport getById(long id) {
