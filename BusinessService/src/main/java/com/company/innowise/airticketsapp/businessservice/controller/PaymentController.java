@@ -1,6 +1,5 @@
 package com.company.innowise.airticketsapp.businessservice.controller;
 
-import com.company.innowise.airticketsapp.businessservice.dto.TicketDto;
 import com.company.innowise.airticketsapp.businessservice.service.TicketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,4 +18,5 @@ public class PaymentController {
     public void payTicket(@PathVariable Integer ticketId) {
         ticketService.purchaseTicket(null, ticketId);
     }
+
 }

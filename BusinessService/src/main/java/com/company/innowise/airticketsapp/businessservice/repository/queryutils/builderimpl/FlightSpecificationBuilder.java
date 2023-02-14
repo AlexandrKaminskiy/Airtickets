@@ -21,7 +21,6 @@ public class FlightSpecificationBuilder implements AbstractSpecificationBuilder<
     public <X> Specification<X> getSpecification(Optional<Join<X, Flight>> xFlightJoin, Map<String, Object> parameters) {
         return ((root, query, criteriaBuilder) -> {
             From<X,?> from = xFlightJoin.isPresent() ? xFlightJoin.get() : root;
-
             return criteriaBuilder.and(
                     ParameterValidator.builder()
                             .add(criteriaBuilder.greaterThanOrEqualTo(from.get(TIME_ARRIVE),

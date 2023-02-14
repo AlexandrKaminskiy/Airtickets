@@ -16,9 +16,7 @@ import lombok.Setter;
 public class Airport extends PrimaryEntity {
 
     private String name;
-
     private String country;
-
     private String town;
 
 }

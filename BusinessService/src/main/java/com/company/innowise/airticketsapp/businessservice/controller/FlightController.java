@@ -6,12 +6,10 @@ import com.company.innowise.airticketsapp.businessservice.service.FlightService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import static com.company.innowise.airticketsapp.businessservice.model.Flight_.*;
 
 @RestController
@@ -51,4 +49,5 @@ public class FlightController {
     public void deleteFlight(@PathVariable Integer id) {
         flightService.deleteFlight(id);
     }
+
 }

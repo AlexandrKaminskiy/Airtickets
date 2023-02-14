@@ -19,4 +19,5 @@ public class NewFlightDto {
     private Double price;
     private Integer fromId;
     private Integer toId;
+
 }

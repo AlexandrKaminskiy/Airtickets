@@ -7,10 +7,8 @@ import jakarta.persistence.criteria.From;
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
-
 import java.util.Map;
 import java.util.Optional;
-
 import static com.company.innowise.airticketsapp.businessservice.model.Ticket_.PRICE;
 
 @Component

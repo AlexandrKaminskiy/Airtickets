@@ -21,6 +21,7 @@ public class Ticket extends PrimaryEntity {
     private BigDecimal price;
 
     private Integer seatNo;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Passenger passenger;
 

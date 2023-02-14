@@ -22,4 +22,5 @@ public class AirportDto implements Serializable {
 
     @NotNull
     private String town;
+
 }

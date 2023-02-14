@@ -26,4 +26,5 @@ public class PassengerMapper implements Mapper<Passenger, PassengerDto> {
     public PassengerDto toDto(Passenger passenger) {
         return modelMapper.map(passenger, PassengerDto.class);
     }
+
 }

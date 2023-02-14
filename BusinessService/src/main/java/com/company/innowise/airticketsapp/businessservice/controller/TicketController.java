@@ -34,4 +34,5 @@ public class TicketController {
     public TicketDto getTicket(@PathVariable Integer id) {
         return ticketService.getTicket(id);
     }
+
 }

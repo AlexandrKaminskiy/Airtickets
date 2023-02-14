@@ -26,4 +26,5 @@ public class AirportMapper implements Mapper<Airport, AirportDto> {
     public AirportDto toDto(Airport airport) {
         return modelMapper.map(airport, AirportDto.class);
     }
+
 }

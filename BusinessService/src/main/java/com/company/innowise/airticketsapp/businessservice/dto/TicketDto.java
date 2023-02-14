@@ -14,8 +14,11 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TicketDto implements Serializable {
+
     private Integer id;
     private BigDecimal price;
     private PassengerDto passenger;
     private FlightDto flight;
+
+
 }

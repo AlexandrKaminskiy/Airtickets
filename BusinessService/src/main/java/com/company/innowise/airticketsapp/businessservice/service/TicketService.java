@@ -66,9 +66,6 @@ public class TicketService {
         }
         ticketRepository.saveAll(tickets);
     }
-    public void deleteTicket(long id) {
-        ticketRepository.deleteById(id);
-    }
 
     private Specification<Ticket> getSpecification(Map<String, Object> parameters) {
         return (root, query, criteriaBuilder) -> {

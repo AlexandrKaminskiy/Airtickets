@@ -26,4 +26,5 @@ public class TicketMapper implements Mapper<Ticket, TicketDto> {
     public TicketDto toDto(Ticket ticket) {
         return modelMapper.map(ticket, TicketDto.class);
     }
+
 }

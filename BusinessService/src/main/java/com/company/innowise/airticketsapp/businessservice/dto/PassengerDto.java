@@ -17,6 +17,7 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PassengerDto implements Serializable {
+
     private String email;
     private String password;
     private String username;
@@ -26,4 +27,5 @@ public class PassengerDto implements Serializable {
     private String lastname;
     private LocalDate birthdate;
     private List<TicketDto> tickets;
+
 }

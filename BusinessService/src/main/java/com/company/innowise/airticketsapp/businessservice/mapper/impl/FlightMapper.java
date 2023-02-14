@@ -27,4 +27,5 @@ public class FlightMapper implements Mapper<Flight, FlightDto> {
     public FlightDto toDto(Flight flight) {
         return modelMapper.map(flight, FlightDto.class);
     }
+
 }
