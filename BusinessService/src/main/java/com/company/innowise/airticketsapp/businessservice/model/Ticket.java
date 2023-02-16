@@ -27,4 +27,5 @@ public class Ticket extends PrimaryEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Flight flight;
+
 }

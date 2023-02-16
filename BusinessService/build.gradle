@@ -27,15 +27,15 @@ ext {
     swaggerVer = '3.0.0'
     swaggerUiVer = '2.0.2'
     jwtVersion = '4.2.2'
+    lombokVersion = '1.18.22'
+    jpaMetamodelVersion = '6.1.6.Final'
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation group: 'org.modelmapper', name: 'modelmapper', version: "${modelmapperVersion}"
-    testImplementation 'org.projectlombok:lombok:1.18.22'
-    annotationProcessor('org.hibernate:hibernate-jpamodelgen:6.1.6.Final')
+    annotationProcessor group: 'org.hibernate', name: 'hibernate-jpamodelgen', version: "${jpaMetamodelVersion}"
     implementation group: 'org.hibernate.validator', name: 'hibernate-validator', version: "${hiberateVersion}"
     implementation group: 'org.flywaydb', name: 'flyway-core', version: "${flywayVersion}"
     compileOnly 'org.projectlombok:lombok'
@@ -46,9 +46,8 @@ dependencies {
     implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: "${swaggerVer}"
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: "${swaggerUiVer}"
     implementation group: 'org.hibernate', name: 'hibernate-validator', version: "${hiberateVersion}"
-
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    //testImplementation 'org.springframework.security:spring-security-test'
+
 }
 
 tasks.named('test') {

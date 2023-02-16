@@ -1,18 +1,16 @@
 package com.company.innowise.airticketsapp.businessservice.dto;
 
 import jakarta.validation.constraints.NotNull;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.io.Serializable;
-
-/**
- * A DTO for the {@link com.company.innowise.airticketsapp.businessservice.model.Airport} entity
- */
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class AirportDto implements Serializable {
+@AllArgsConstructor
+public class AirportDto {
 
     @NotNull
     private String name;

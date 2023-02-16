@@ -5,18 +5,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
-/**
- * A DTO for the {@link com.company.innowise.airticketsapp.businessservice.model.Passenger} entity
- */
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class PassengerDto implements Serializable {
+@AllArgsConstructor
+public class PassengerDto {
 
     private String email;
     private String password;

@@ -2,6 +2,7 @@ package com.company.innowise.airticketsapp.businessservice.service;
 
 import com.company.innowise.airticketsapp.businessservice.dto.FlightDto;
 import com.company.innowise.airticketsapp.businessservice.dto.NewFlightDto;
+import com.company.innowise.airticketsapp.businessservice.exception.BusinessException;
 import com.company.innowise.airticketsapp.businessservice.mapper.impl.FlightMapper;
 import com.company.innowise.airticketsapp.businessservice.model.Airport;
 import com.company.innowise.airticketsapp.businessservice.model.Flight;
@@ -9,6 +10,7 @@ import com.company.innowise.airticketsapp.businessservice.repository.FlightRepos
 import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.AirportSpecificationBuilder;
 import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.FlightSpecificationBuilder;
 import jakarta.persistence.criteria.Join;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -41,12 +43,12 @@ public class FlightService {
     }
 
     public FlightDto getFlight(long id) {
-        return flightMapper.toDto(flightRepository.getReferenceById(id));
+        return flightMapper.toDto(flightRepository.findById(id).orElseThrow(()->new BusinessException("flight not found")));
     }
 
+    @Transactional
     public FlightDto addFlight(NewFlightDto newFlightDto) {
         Flight flight = new Flight();
-        flight.setSeatsCount(newFlightDto.getSeatsCount());
         flight.setTimeArrive(newFlightDto.getTimeArrive());
         flight.setTimeDeparture(newFlightDto.getTimeDeparture());
         Airport from = airportService.getById(newFlightDto.getToId());
@@ -54,12 +56,14 @@ public class FlightService {
         flight.setFrom(from);
         flight.setTo(to);
         flightRepository.save(flight);
-        ticketService.addTickets(flight, BigDecimal.valueOf(newFlightDto.getPrice()));
+        ticketService.addTickets(flight, newFlightDto.getSeatsCount(), BigDecimal.valueOf(newFlightDto.getPrice()));
         return flightMapper.toDto(flight);
     }
 
+    @Transactional
     public void deleteFlight(long id) {
-        flightRepository.deleteById(id);
+        Flight flight = flightRepository.findById(id).orElseThrow(() -> new BusinessException("flight not found"));
+        flightRepository.delete(flight);
     }
 
     private Specification<Flight> getSpecification(Map<String, Object> parameters) {
@@ -83,4 +87,5 @@ public class FlightService {
             return specification.toPredicate(root, query, criteriaBuilder);
         };
     }
+
 }

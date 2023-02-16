@@ -1,18 +1,17 @@
 package com.company.innowise.airticketsapp.businessservice.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
-/**
- * A DTO for the {@link com.company.innowise.airticketsapp.businessservice.model.Flight} entity
- */
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class FlightDto implements Serializable {
+@AllArgsConstructor
+public class FlightDto {
 
     private Integer id;
     private AirportDto from;

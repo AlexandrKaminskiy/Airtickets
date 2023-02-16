@@ -13,3 +13,6 @@ spring:
     password: postgres
     schemas: public
     url: jdbc:postgresql://localhost:5432/airtickets
+
+server:
+  port: 0

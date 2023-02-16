@@ -1,6 +1,7 @@
 package com.company.innowise.airticketsapp.businessservice.service;
 
 import com.company.innowise.airticketsapp.businessservice.dto.PassengerDto;
+import com.company.innowise.airticketsapp.businessservice.exception.BusinessException;
 import com.company.innowise.airticketsapp.businessservice.mapper.impl.PassengerMapper;
 import com.company.innowise.airticketsapp.businessservice.model.Passenger;
 import com.company.innowise.airticketsapp.businessservice.model.Ticket;
@@ -8,6 +9,7 @@ import com.company.innowise.airticketsapp.businessservice.repository.PassengerRe
 import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.PassengerSpecificationBuilder;
 import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.TicketSpecificationBuilder;
 import jakarta.persistence.criteria.Join;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -39,17 +41,20 @@ public class PassengerService {
     }
 
     public PassengerDto getPassenger(long id) {
-        return passengerMapper.toDto(passengerRepository.getReferenceById(id));
+        return passengerMapper.toDto(passengerRepository.findById(id).orElseThrow(()->new BusinessException("passenger not found")));
     }
 
+    @Transactional
     public PassengerDto addPassenger(PassengerDto passengerDto) {
         Passenger passenger = passengerMapper.toModel(passengerDto);
         passengerRepository.save(passenger);
         return passengerDto;
     }
 
+    @Transactional
     public void deletePassenger(long id) {
-        passengerRepository.deleteById(id);
+        Passenger passenger = passengerRepository.findById(id).orElseThrow(() -> new BusinessException("passenger not found"));
+        passengerRepository.delete(passenger);
     }
 
     private Specification<Passenger> getSpecification(Map<String, Object> parameters) {
@@ -61,7 +66,6 @@ public class PassengerService {
             return airportSpecification.and(airportSpecification)
                     .and(ticketSpecification)
                     .toPredicate(root, query, criteriaBuilder);
-
         };
     }
 

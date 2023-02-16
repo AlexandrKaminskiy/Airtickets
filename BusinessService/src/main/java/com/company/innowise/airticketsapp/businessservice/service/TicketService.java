@@ -1,6 +1,7 @@
 package com.company.innowise.airticketsapp.businessservice.service;
 
 import com.company.innowise.airticketsapp.businessservice.dto.TicketDto;
+import com.company.innowise.airticketsapp.businessservice.exception.BusinessException;
 import com.company.innowise.airticketsapp.businessservice.mapper.impl.TicketMapper;
 import com.company.innowise.airticketsapp.businessservice.model.Flight;
 import com.company.innowise.airticketsapp.businessservice.model.Passenger;
@@ -10,6 +11,7 @@ import com.company.innowise.airticketsapp.businessservice.repository.TicketRepos
 import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.FlightSpecificationBuilder;
 import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.TicketSpecificationBuilder;
 import jakarta.persistence.criteria.Join;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -29,6 +31,7 @@ public class TicketService {
     private final FlightSpecificationBuilder flightSpecificationBuilder;
     private final TicketMapper ticketMapper;
 
+    @Transactional
     public void purchaseTicket(Passenger passenger, Integer ticketId) {
         Ticket ticket = ticketRepository.getReferenceById(Long.valueOf(ticketId));
         ticket.setPassenger(passenger);
@@ -51,13 +54,16 @@ public class TicketService {
                 .toList();
     }
 
+
     public TicketDto getTicket(long id) {
-        return ticketMapper.toDto(ticketRepository.getReferenceById(id));
+        Ticket ticket = ticketRepository.findById(id).orElseThrow(() -> new BusinessException("ticket not found"));
+        return ticketMapper.toDto(ticket);
     }
 
-    public void addTickets(Flight flight, BigDecimal price) {
+    @Transactional
+    public void addTickets(Flight flight, Integer seatsCount, BigDecimal price) {
         List<Ticket> tickets = new ArrayList<>();
-        for (int i = 0; i < flight.getSeatsCount(); i++) {
+        for (int i = 0; i < seatsCount; i++) {
             Ticket ticket = new Ticket();
             ticket.setSeatNo(i);
             ticket.setPrice(price);

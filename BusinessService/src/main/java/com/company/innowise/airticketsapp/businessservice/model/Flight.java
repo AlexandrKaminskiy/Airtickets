@@ -23,8 +23,6 @@ public class Flight extends PrimaryEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Airport to;
 
-    private int seatsCount;
-
     private LocalDateTime timeDeparture;
 
     private LocalDateTime timeArrive;

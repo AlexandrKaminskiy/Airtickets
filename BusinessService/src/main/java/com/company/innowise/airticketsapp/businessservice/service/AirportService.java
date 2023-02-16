@@ -1,10 +1,12 @@
 package com.company.innowise.airticketsapp.businessservice.service;
 
 import com.company.innowise.airticketsapp.businessservice.dto.AirportDto;
+import com.company.innowise.airticketsapp.businessservice.exception.BusinessException;
 import com.company.innowise.airticketsapp.businessservice.mapper.impl.AirportMapper;
 import com.company.innowise.airticketsapp.businessservice.model.Airport;
 import com.company.innowise.airticketsapp.businessservice.repository.AirportRepository;
 import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.AirportSpecificationBuilder;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.data.jpa.domain.Specification;
@@ -31,17 +33,20 @@ public class AirportService {
     }
 
     public Airport getById(long id) {
-        return airportRepository.getReferenceById(id);
+        return airportRepository.findById(id).orElseThrow(()->new BusinessException("airport not found"));
     }
 
+    @Transactional
     public AirportDto addAirport(AirportDto airportDto) {
         Airport airport = airportMapper.toModel(airportDto);
         airportRepository.save(airport);
         return airportDto;
     }
 
+    @Transactional
     public void deleteAirport(long id) {
-        airportRepository.deleteById(id);
+        Airport airport = airportRepository.findById(id).orElseThrow(() -> new BusinessException("airport not found"));
+        airportRepository.delete(airport);
     }
 
     private Specification<Airport> getSpecification(Map<String, Object> parameters) {

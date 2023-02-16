@@ -25,7 +25,6 @@ CREATE TABLE flight
     id             SERIAL NOT NULL,
     from_id        INTEGER,
     to_id          INTEGER,
-    seats_count    INTEGER,
     time_departure TIMESTAMP with time zone,
     time_arrive    TIMESTAMP with time zone,
     CONSTRAINT pk_flight      PRIMARY KEY (id),

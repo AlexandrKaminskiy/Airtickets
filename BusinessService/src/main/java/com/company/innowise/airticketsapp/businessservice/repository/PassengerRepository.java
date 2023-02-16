@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface PassengerRepository extends JpaRepository<Passenger, Long>, JpaSpecificationExecutor<Passenger> {
     Optional<Passenger> getPassengerByUsername(String username);
+
 }
