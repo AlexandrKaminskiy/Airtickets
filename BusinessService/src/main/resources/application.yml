@@ -15,4 +15,10 @@ spring:
     url: jdbc:postgresql://localhost:5432/airtickets
 
 server:
-  port: 0
+  port: 8080
+
+jwt:
+  secret: capybaraSecret
+  subject: capybaraApplication
+  access-exp: 1800000
+  refresh-exp: 3600000

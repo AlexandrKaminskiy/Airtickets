@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ public class PassengerService {
     private final PassengerSpecificationBuilder passengerSpecificationBuilder;
     private final TicketSpecificationBuilder ticketSpecificationBuilder;
     private final PassengerMapper passengerMapper;
+    private final PasswordEncoder passwordEncoder;
 
     public List<PassengerDto> getAll(int size, int page) {
         return passengerRepository.findAll(Pageable.ofSize(size).withPage(page)).stream()
@@ -45,8 +47,14 @@ public class PassengerService {
     }
 
     @Transactional
-    public PassengerDto addPassenger(PassengerDto passengerDto) {
+    public PassengerDto signUp(PassengerDto passengerDto) {
         Passenger passenger = passengerMapper.toModel(passengerDto);
+        List<Passenger> passengers =
+                passengerRepository.getPassengerByUsernameOrEmail(passenger.getUsername(), passengerDto.getEmail());
+        if (!passengers.isEmpty()) {
+            throw new BusinessException("You can't create passenger with this email and username");
+        }
+        passenger.setPassword(passwordEncoder.encode(passenger.getPassword()));
         passengerRepository.save(passenger);
         return passengerDto;
     }
