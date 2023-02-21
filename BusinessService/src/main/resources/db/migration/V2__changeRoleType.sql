@@ -1,0 +1,2 @@
+ALTER TABLE passenger_roles
+    ALTER COLUMN role TYPE VARCHAR(30);

@@ -6,6 +6,7 @@ import com.company.innowise.airticketsapp.businessservice.security.PassengerDeta
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -36,11 +37,13 @@ public class WebConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.NEVER))
                 .rememberMe(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/admin").hasRole("ADMIN")
-                        .requestMatchers("/sanya").authenticated()
+                        .requestMatchers("/api/passenger/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/airport/**", "/api/flight/**").permitAll()
+                        .requestMatchers("/api/airport/**", "/api/flight/**").hasRole("MANAGER")
+                        .requestMatchers("/api/profile/**", "/api/payment/**").hasRole("PASSENGER")
+                        .requestMatchers("/api/sign-in", "/api/sign-up").anonymous()
                         .anyRequest().permitAll()
                 )
-
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .cors().disable()
                 .csrf().disable()

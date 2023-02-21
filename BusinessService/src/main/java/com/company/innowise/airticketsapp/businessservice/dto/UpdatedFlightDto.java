@@ -11,13 +11,9 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FlightDto {
+public class UpdatedFlightDto {
 
-    private Long id;
-    private AirportDto from;
-    private AirportDto to;
-    private Integer seatsCount;
     private LocalDateTime timeDeparture;
     private LocalDateTime timeArrive;
-
+    
 }

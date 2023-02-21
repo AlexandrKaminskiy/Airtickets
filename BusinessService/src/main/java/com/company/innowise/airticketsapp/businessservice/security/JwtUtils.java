@@ -13,6 +13,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Date;
 
 @Component
@@ -58,6 +60,7 @@ public class JwtUtils {
         return jwtToken;
     }
 
+    @Transactional
     public PassengerDetails verifyToken(String token) {
         DecodedJWT decodedJWT = verifier.verify(token);
         String username = decodedJWT.getClaim("username").asString();

@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class AirportMapper implements Mapper<Airport, AirportDto> {
 
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     public AirportMapper() {
         modelMapper = new ModelMapper();

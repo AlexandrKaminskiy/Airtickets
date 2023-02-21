@@ -2,6 +2,7 @@ package com.company.innowise.airticketsapp.businessservice.service;
 
 import com.company.innowise.airticketsapp.businessservice.dto.FlightDto;
 import com.company.innowise.airticketsapp.businessservice.dto.NewFlightDto;
+import com.company.innowise.airticketsapp.businessservice.dto.UpdatedFlightDto;
 import com.company.innowise.airticketsapp.businessservice.exception.BusinessException;
 import com.company.innowise.airticketsapp.businessservice.mapper.impl.FlightMapper;
 import com.company.innowise.airticketsapp.businessservice.model.Airport;
@@ -10,11 +11,11 @@ import com.company.innowise.airticketsapp.businessservice.repository.FlightRepos
 import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.AirportSpecificationBuilder;
 import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.FlightSpecificationBuilder;
 import jakarta.persistence.criteria.Join;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -34,6 +35,7 @@ public class FlightService {
     private final TicketService ticketService;
     private final FlightMapper flightMapper;
     private final FlightRepository flightRepository;
+    private final String ERROR_MESSAGE = "flight not found";
 
     public List<FlightDto> getAll(Map<String, Object> parameters, int size, int page) {
         Specification<Flight> specification = getSpecification(parameters);
@@ -43,7 +45,7 @@ public class FlightService {
     }
 
     public FlightDto getFlight(long id) {
-        return flightMapper.toDto(flightRepository.findById(id).orElseThrow(()->new BusinessException("flight not found")));
+        return flightMapper.toDto(flightRepository.findById(id).orElseThrow(()->new BusinessException(ERROR_MESSAGE)));
     }
 
     @Transactional
@@ -62,8 +64,18 @@ public class FlightService {
 
     @Transactional
     public void deleteFlight(long id) {
-        Flight flight = flightRepository.findById(id).orElseThrow(() -> new BusinessException("flight not found"));
+        Flight flight = flightRepository.findById(id).orElseThrow(() -> new BusinessException(ERROR_MESSAGE));
         flightRepository.delete(flight);
+    }
+
+    @Transactional
+    public FlightDto updateFlight(Long flightId, UpdatedFlightDto flightDto) {
+        Flight flight = flightRepository
+                .findById(flightId).orElseThrow(() -> new BusinessException(ERROR_MESSAGE));
+        flight.setTimeArrive(flightDto.getTimeArrive());
+        flight.setTimeArrive(flightDto.getTimeDeparture());
+        flightRepository.save(flight);
+        return flightMapper.toDto(flight);
     }
 
     private Specification<Flight> getSpecification(Map<String, Object> parameters) {

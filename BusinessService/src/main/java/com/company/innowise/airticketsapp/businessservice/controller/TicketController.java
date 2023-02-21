@@ -31,7 +31,7 @@ public class TicketController {
     }
 
     @GetMapping("/{id}")
-    public TicketDto getTicket(@PathVariable Integer id) {
+    public TicketDto getTicket(@PathVariable Long id) {
         return ticketService.getTicket(id);
     }
 

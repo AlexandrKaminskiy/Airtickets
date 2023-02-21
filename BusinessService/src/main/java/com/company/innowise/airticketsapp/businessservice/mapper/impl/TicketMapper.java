@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class TicketMapper implements Mapper<Ticket, TicketDto> {
 
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     public TicketMapper() {
         modelMapper = new ModelMapper();

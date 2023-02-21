@@ -1,25 +1,23 @@
 package com.company.innowise.airticketsapp.businessservice.dto;
 
-import com.company.innowise.airticketsapp.businessservice.model.Role;
-import lombok.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PassengerDto {
+public class NewPassengerDto {
 
     private String email;
+    private String password;
     private String username;
-    private Set<Role> roles;
     private String passport;
     private String firstname;
     private String lastname;
     private LocalDate birthdate;
-    private List<TicketDto> tickets;
 
 }
