@@ -12,6 +12,7 @@ import com.company.innowise.airticketsapp.businessservice.repository.queryutils.
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TicketService {
@@ -58,6 +60,7 @@ public class TicketService {
             tickets.add(ticket);
         }
         ticketRepository.saveAll(tickets);
+        log.info("{} TICKETS FOR FLIGHT WITH ID {} WAS SAVED", seatsCount, flight.getId());
     }
 
     private Specification<Ticket> getSpecification(Map<String, Object> parameters) {

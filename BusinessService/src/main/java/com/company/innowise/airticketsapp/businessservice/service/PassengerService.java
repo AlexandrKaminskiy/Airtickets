@@ -15,6 +15,7 @@ import com.company.innowise.airticketsapp.businessservice.repository.queryutils.
 import com.company.innowise.airticketsapp.businessservice.security.JwtUtils;
 import com.company.innowise.airticketsapp.businessservice.security.PassengerDetails;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PassengerService {
@@ -70,25 +72,29 @@ public class PassengerService {
 
     @Transactional
     public String signUp(NewPassengerDto passengerDto) {
+        log.info("ATTEMPT TO REGISTER PASSENGER");
         Passenger passenger = newPassengerMapper.toModel(passengerDto);
         List<Passenger> passengers =
                 passengerRepository.getPassengerByUsernameOrEmail(passenger.getUsername(), passengerDto.getEmail());
         if (!passengers.isEmpty()) {
+            log.error("REGISTER WAS FAILED");
             throw new BusinessException("You can't create passenger with this email and username");
         }
         passenger.setPassword(passwordEncoder.encode(passenger.getPassword()));
         passenger.setRoles(new HashSet<>(Set.of(Role.ROLE_PASSENGER)));
         passengerRepository.save(passenger);
+        log.info("PASSENGER {} WAS REGISTERED", passenger.getUsername());
         return passenger.getUsername();
     }
 
     public Token signIn(PassengerCredentials passengerCredentials) {
         String password = passengerCredentials.getPassword();
         String username = passengerCredentials.getUsername();
-        Authentication authenticate = authenticationManager
+        Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        String accessToken = jwtUtils.createToken((UserDetails) authenticate.getPrincipal(), true);
-        String refreshToken = jwtUtils.createToken((UserDetails) authenticate.getPrincipal(), false);
+        String accessToken = jwtUtils.createToken((UserDetails) authentication.getPrincipal(), true);
+        String refreshToken = jwtUtils.createToken((UserDetails) authentication.getPrincipal(), false);
+        log.info("PASSENGER {} SIGNED IN", passengerCredentials.getUsername());
         return new Token(accessToken, refreshToken);
     }
 
@@ -107,5 +113,6 @@ public class PassengerService {
                 .getPassengerByUsername(username).orElseThrow(() -> new BusinessException(ERROR_MESSAGE));
         passenger.setRoles(roles);
         passengerRepository.save(passenger);
+        log.info("PASSENGER {} ROLES WERE UPDATED TO", roles);
     }
 }

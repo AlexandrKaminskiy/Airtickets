@@ -12,6 +12,7 @@ import com.company.innowise.airticketsapp.businessservice.repository.queryutils.
 import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.FlightSpecificationBuilder;
 import jakarta.persistence.criteria.Join;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import java.util.Optional;
 import static com.company.innowise.airticketsapp.businessservice.model.Flight_.FROM;
 import static com.company.innowise.airticketsapp.businessservice.model.Flight_.TO;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class FlightService {
@@ -59,6 +61,7 @@ public class FlightService {
         flight.setTo(to);
         flightRepository.save(flight);
         ticketService.addTickets(flight, newFlightDto.getSeatsCount(), BigDecimal.valueOf(newFlightDto.getPrice()));
+        log.info("FLIGHT {} WAS ADDED", flight.getId());
         return flightMapper.toDto(flight);
     }
 
@@ -66,6 +69,7 @@ public class FlightService {
     public void deleteFlight(long id) {
         Flight flight = flightRepository.findById(id).orElseThrow(() -> new BusinessException(ERROR_MESSAGE));
         flightRepository.delete(flight);
+        log.info("FLIGHT {} WAS DELETED", id);
     }
 
     @Transactional
@@ -75,6 +79,7 @@ public class FlightService {
         flight.setTimeArrive(flightDto.getTimeArrive());
         flight.setTimeArrive(flightDto.getTimeDeparture());
         flightRepository.save(flight);
+        log.info("FLIGHT {} WAS UPDATED", flightId);
         return flightMapper.toDto(flight);
     }
 
