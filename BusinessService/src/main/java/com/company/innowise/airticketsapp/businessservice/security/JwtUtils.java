@@ -5,6 +5,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.company.innowise.airticketsapp.businessservice.model.Passenger;
+import com.company.innowise.airticketsapp.businessservice.repository.JwtRepository;
 import com.company.innowise.airticketsapp.businessservice.repository.PassengerRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,8 @@ public class JwtUtils {
 
     private final PassengerRepository clientRepository;
 
+    private final JwtRepository jwtRepository;
+
     @PostConstruct
     public void init() {
         algorithm = Algorithm.HMAC256(secret);
@@ -65,6 +68,7 @@ public class JwtUtils {
         DecodedJWT decodedJWT = verifier.verify(token);
         String username = decodedJWT.getClaim("username").asString();
         Passenger passenger = clientRepository.getPassengerByUsername(username).orElseThrow();
+        jwtRepository.findByPassengerUsername(passenger.getUsername());
         return new PassengerDetails(passenger.getUsername(), passenger.getPassword(),
                 passenger.getRoles().stream()
                         .map((role)->new SimpleGrantedAuthority(role.name()))

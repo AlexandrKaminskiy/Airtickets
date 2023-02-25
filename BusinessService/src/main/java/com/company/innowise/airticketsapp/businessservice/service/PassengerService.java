@@ -7,8 +7,10 @@ import com.company.innowise.airticketsapp.businessservice.dto.Token;
 import com.company.innowise.airticketsapp.businessservice.exception.BusinessException;
 import com.company.innowise.airticketsapp.businessservice.mapper.impl.NewPassengerMapper;
 import com.company.innowise.airticketsapp.businessservice.mapper.impl.PassengerMapper;
+import com.company.innowise.airticketsapp.businessservice.model.JwtHolder;
 import com.company.innowise.airticketsapp.businessservice.model.Passenger;
 import com.company.innowise.airticketsapp.businessservice.model.Role;
+import com.company.innowise.airticketsapp.businessservice.repository.JwtRepository;
 import com.company.innowise.airticketsapp.businessservice.repository.PassengerRepository;
 import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.PassengerSpecificationBuilder;
 import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.TicketSpecificationBuilder;
@@ -41,6 +43,7 @@ public class PassengerService {
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
     private final String ERROR_MESSAGE = "passenger not found";
+    private final JwtRepository jwtRepository;
 
     public Passenger getByDetails() {
         UserDetails passengerDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -87,6 +90,7 @@ public class PassengerService {
         return passenger.getUsername();
     }
 
+    @Transactional
     public Token signIn(PassengerCredentials passengerCredentials) {
         String password = passengerCredentials.getPassword();
         String username = passengerCredentials.getUsername();
@@ -94,6 +98,14 @@ public class PassengerService {
                 .authenticate(new UsernamePasswordAuthenticationToken(username, password));
         String accessToken = jwtUtils.createToken((UserDetails) authentication.getPrincipal(), true);
         String refreshToken = jwtUtils.createToken((UserDetails) authentication.getPrincipal(), false);
+        Passenger passenger = passengerRepository
+                        .getPassengerByUsername(username).orElseThrow(() -> new BusinessException(ERROR_MESSAGE));
+        jwtRepository.findByPassengerUsername(passenger.getUsername()).ifPresent(jwtRepository::delete);
+        JwtHolder jwtHolder = new JwtHolder();
+        jwtHolder.setAccessToken(accessToken);
+        jwtHolder.setRefreshToken(refreshToken);
+        jwtHolder.setPassenger(passenger);
+        jwtRepository.save(jwtHolder);
         log.info("PASSENGER {} SIGNED IN", passengerCredentials.getUsername());
         return new Token(accessToken, refreshToken);
     }

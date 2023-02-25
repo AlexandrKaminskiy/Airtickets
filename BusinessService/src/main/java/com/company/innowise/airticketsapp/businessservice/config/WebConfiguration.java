@@ -1,7 +1,6 @@
 package com.company.innowise.airticketsapp.businessservice.config;
 
 import com.company.innowise.airticketsapp.businessservice.security.JwtFilter;
-import com.company.innowise.airticketsapp.businessservice.security.JwtUtils;
 import com.company.innowise.airticketsapp.businessservice.security.PassengerDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -27,7 +26,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 public class WebConfiguration {
 
     private final JwtFilter jwtFilter;
-    private final JwtUtils jwtUtils;
     private final PassengerDetailsService passengerDetailsService;
 
     @Bean

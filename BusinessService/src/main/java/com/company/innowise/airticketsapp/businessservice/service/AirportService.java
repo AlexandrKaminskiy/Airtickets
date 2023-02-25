@@ -30,10 +30,6 @@ public class AirportService {
         return airportRepository.findAll(specification, Pageable.ofSize(size).withPage(page)).toList();
     }
 
-    public Airport getAirport(long id) {
-        return airportRepository.getReferenceById(id);
-    }
-
     public Airport getById(long id) {
         return airportRepository.findById(id).orElseThrow(()->new BusinessException("airport not found"));
     }

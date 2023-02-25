@@ -42,13 +42,13 @@ public class FlightController {
     }
 
     @PostMapping("/")
-    public FlightDto addFlight(@Valid @RequestBody NewFlightDto newFlightDto) {
+    public FlightDto addFlight(@RequestBody @Valid NewFlightDto newFlightDto) {
         return flightService.addFlight(newFlightDto);
     }
 
     @PutMapping("/{flightId}")
     public FlightDto updateFlight(@PathVariable Long flightId,
-                                  @RequestBody UpdatedFlightDto flightDto) {
+                                  @RequestBody @Valid UpdatedFlightDto flightDto) {
         return flightService.updateFlight(flightId, flightDto);
     }
 

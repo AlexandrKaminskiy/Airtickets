@@ -17,12 +17,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import static com.company.innowise.airticketsapp.businessservice.model.Flight_.FROM;
 import static com.company.innowise.airticketsapp.businessservice.model.Flight_.TO;
 
@@ -60,7 +57,7 @@ public class FlightService {
         flight.setFrom(from);
         flight.setTo(to);
         flightRepository.save(flight);
-        ticketService.addTickets(flight, newFlightDto.getSeatsCount(), BigDecimal.valueOf(newFlightDto.getPrice()));
+        ticketService.addTickets(flight, newFlightDto.getSeatsCount(), newFlightDto.getPrice());
         log.info("FLIGHT {} WAS ADDED", flight.getId());
         return flightMapper.toDto(flight);
     }

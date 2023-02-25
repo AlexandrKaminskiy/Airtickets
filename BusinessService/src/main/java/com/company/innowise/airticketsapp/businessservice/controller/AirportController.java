@@ -35,7 +35,7 @@ public class AirportController {
 
     @GetMapping("/{id}")
     public Airport getOne(@PathVariable Integer id) {
-        return airportService.getAirport(id);
+        return airportService.getById(id);
     }
 
     @PostMapping("/")
