@@ -1,13 +1,14 @@
 package com.company.innowise.airticketsapp.businessservice.repository;
 
-import com.company.innowise.airticketsapp.businessservice.model.JwtHolder;
+import com.company.innowise.airticketsapp.businessservice.model.ActivatorLink;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+
 import java.util.Optional;
 
 @Repository
-public interface JwtRepository extends JpaRepository<JwtHolder, Long> {
+public interface ActivatorLinkRepository extends JpaRepository<ActivatorLink, Long> {
 
-    Optional<JwtHolder> findByPassengerUsername(String username);
+    Optional<ActivatorLink> findByUuid(String uuid);
 
 }

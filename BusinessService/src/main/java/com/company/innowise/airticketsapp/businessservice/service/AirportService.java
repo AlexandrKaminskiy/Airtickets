@@ -55,4 +55,5 @@ public class AirportService {
             return airportSpecification.toPredicate(root, query, criteriaBuilder);
         };
     }
+
 }

@@ -39,8 +39,9 @@ public class PassengerController {
         passengerService.changeRole(username, roles);
     }
 
-    @GetMapping("/{id}")
-    public PassengerDto getPassenger(@PathVariable Long id) {
-        return passengerService.getPassenger(id);
+    @GetMapping("/{username}")
+    public PassengerDto getPassenger(@PathVariable String username) {
+        return passengerService.getPassenger(username);
     }
+
 }

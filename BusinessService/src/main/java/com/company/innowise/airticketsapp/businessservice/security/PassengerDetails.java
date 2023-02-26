@@ -7,7 +7,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
-
 @Getter
 @AllArgsConstructor
 public class PassengerDetails implements UserDetails {
@@ -15,7 +14,6 @@ public class PassengerDetails implements UserDetails {
     private String username;
     private String password;
     private Collection<? extends GrantedAuthority> grantedAuthorities;
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -51,4 +49,5 @@ public class PassengerDetails implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

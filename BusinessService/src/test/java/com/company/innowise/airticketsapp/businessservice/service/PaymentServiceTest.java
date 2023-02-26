@@ -1,6 +1,5 @@
 package com.company.innowise.airticketsapp.businessservice.service;
 
-import com.company.innowise.airticketsapp.businessservice.model.Airport;
 import com.company.innowise.airticketsapp.businessservice.model.Passenger;
 import com.company.innowise.airticketsapp.businessservice.model.Ticket;
 import com.company.innowise.airticketsapp.businessservice.repository.TicketRepository;
@@ -10,10 +9,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
 import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class PaymentServiceTest {
@@ -55,4 +51,5 @@ class PaymentServiceTest {
         Mockito.verify(ticketRepository, Mockito.times(1))
                 .save(ArgumentMatchers.any(Ticket.class));
     }
+
 }

@@ -36,6 +36,8 @@ public class Passenger extends PrimaryEntity {
 
     private LocalDate birthdate;
 
+    private Boolean isActive;
+
     @OneToMany(mappedBy = "passenger")
     private List<Ticket> tickets;
 

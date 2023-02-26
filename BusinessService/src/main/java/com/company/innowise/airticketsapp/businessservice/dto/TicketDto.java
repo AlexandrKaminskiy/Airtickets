@@ -13,5 +13,6 @@ public class TicketDto {
     private Integer id;
     private BigDecimal price;
     private FlightDto flight;
+    private Integer seatNo;
 
 }

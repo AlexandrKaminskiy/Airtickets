@@ -17,4 +17,5 @@ public class PassengerCredentials {
 
     @NotNull
     private String password;
+
 }

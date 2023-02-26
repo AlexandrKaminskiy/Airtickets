@@ -47,20 +47,17 @@ public class JwtUtils {
         verifier = JWT.require(algorithm)
                 .withIssuer(iss)
                 .build();
-        System.out.println(iss);
     }
 
     public String createToken(UserDetails client, boolean isAccess) {
         long expired = isAccess ? accessExpired : refreshExpired;
-        String jwtToken = JWT.create()
+        return JWT.create()
                 .withIssuer(iss)
                 .withClaim("username", client.getUsername())
                 .withIssuedAt(new Date())
                 .withClaim("roles", client.getAuthorities().stream().map((GrantedAuthority::getAuthority)).toList())
                 .withExpiresAt(new Date(System.currentTimeMillis() + expired))
                 .sign(algorithm);
-        System.out.println(jwtToken);
-        return jwtToken;
     }
 
     @Transactional
@@ -74,4 +71,5 @@ public class JwtUtils {
                         .map((role)->new SimpleGrantedAuthority(role.name()))
                         .toList());
     }
+
 }

@@ -6,10 +6,7 @@ import com.company.innowise.airticketsapp.businessservice.dto.Token;
 import com.company.innowise.airticketsapp.businessservice.service.PassengerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,6 +23,11 @@ public class AuthenticationController {
     @PostMapping("/sign-in")
     public Token signIn(@RequestBody @Valid PassengerCredentials passengerCredentials) {
         return passengerService.signIn(passengerCredentials);
+    }
+
+    @GetMapping("/activate/{uuid}")
+    public String signUp(@PathVariable String uuid) {
+        return passengerService.activatePassenger(uuid);
     }
 
 }

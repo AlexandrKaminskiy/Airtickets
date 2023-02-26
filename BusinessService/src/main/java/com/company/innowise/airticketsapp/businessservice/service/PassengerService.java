@@ -5,15 +5,17 @@ import com.company.innowise.airticketsapp.businessservice.dto.PassengerCredentia
 import com.company.innowise.airticketsapp.businessservice.dto.PassengerDto;
 import com.company.innowise.airticketsapp.businessservice.dto.Token;
 import com.company.innowise.airticketsapp.businessservice.exception.BusinessException;
+import com.company.innowise.airticketsapp.businessservice.mail.MailService;
 import com.company.innowise.airticketsapp.businessservice.mapper.impl.NewPassengerMapper;
 import com.company.innowise.airticketsapp.businessservice.mapper.impl.PassengerMapper;
+import com.company.innowise.airticketsapp.businessservice.model.ActivatorLink;
 import com.company.innowise.airticketsapp.businessservice.model.JwtHolder;
 import com.company.innowise.airticketsapp.businessservice.model.Passenger;
 import com.company.innowise.airticketsapp.businessservice.model.Role;
+import com.company.innowise.airticketsapp.businessservice.repository.ActivatorLinkRepository;
 import com.company.innowise.airticketsapp.businessservice.repository.JwtRepository;
 import com.company.innowise.airticketsapp.businessservice.repository.PassengerRepository;
 import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.PassengerSpecificationBuilder;
-import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.TicketSpecificationBuilder;
 import com.company.innowise.airticketsapp.businessservice.security.JwtUtils;
 import com.company.innowise.airticketsapp.businessservice.security.PassengerDetails;
 import lombok.RequiredArgsConstructor;
@@ -42,8 +44,10 @@ public class PassengerService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
     private final AuthenticationManager authenticationManager;
-    private final String ERROR_MESSAGE = "passenger not found";
     private final JwtRepository jwtRepository;
+    private final ActivatorLinkRepository activatorLinkRepository;
+    private final MailService mailService;
+    private final String ERROR_MESSAGE = "passenger not found";
 
     public Passenger getByDetails() {
         UserDetails passengerDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -60,8 +64,9 @@ public class PassengerService {
                 .toList();
     }
 
-    public PassengerDto getPassenger(Long id) {
-        return passengerMapper.toDto(passengerRepository.findById(id).orElseThrow(()->new BusinessException(ERROR_MESSAGE)));
+    public PassengerDto getPassenger(String username) {
+        return passengerMapper.toDto(passengerRepository.getPassengerByUsername(username)
+                .orElseThrow(()->new BusinessException(ERROR_MESSAGE)));
     }
 
     public PassengerDto getProfile() {
@@ -84,9 +89,13 @@ public class PassengerService {
             throw new BusinessException("You can't create passenger with this email and username");
         }
         passenger.setPassword(passwordEncoder.encode(passenger.getPassword()));
-        passenger.setRoles(new HashSet<>(Set.of(Role.ROLE_PASSENGER)));
+        passenger.setIsActive(false);
         passengerRepository.save(passenger);
-        log.info("PASSENGER {} WAS REGISTERED", passenger.getUsername());
+        String uuid = UUID.randomUUID().toString();
+        ActivatorLink activatorLink = new ActivatorLink(uuid, passenger);
+        activatorLinkRepository.save(activatorLink);
+        mailService.sendMail(passenger.getEmail(), uuid);
+        log.info("PASSENGER {} WAS REGISTERED BUT NOT ACTIVATED", passenger.getUsername());
         return passenger.getUsername();
     }
 
@@ -110,13 +119,17 @@ public class PassengerService {
         return new Token(accessToken, refreshToken);
     }
 
-    private Specification<Passenger> getSpecification(Map<String, Object> parameters) {
-        return (root, query, criteriaBuilder) -> {
-
-            Specification<Passenger> airportSpecification = passengerSpecificationBuilder.getSpecification(Optional.empty(), parameters);
-            return airportSpecification.and(airportSpecification)
-                    .toPredicate(root, query, criteriaBuilder);
-        };
+    @Transactional
+    public String activatePassenger(String uuid) {
+        ActivatorLink link =
+                activatorLinkRepository.findByUuid(uuid).orElseThrow(() -> new BusinessException("incorrect link"));
+        Passenger passenger = link.getPassenger();
+        passenger.setIsActive(true);
+        passenger.setRoles(new HashSet<>(Set.of(Role.ROLE_PASSENGER)));
+        passengerRepository.save(passenger);
+        activatorLinkRepository.delete(link);
+        log.info("PASSENGER {} IS ACTIVE", passenger.getUsername());
+        return "passenger is active";
     }
 
     @Transactional
@@ -127,4 +140,13 @@ public class PassengerService {
         passengerRepository.save(passenger);
         log.info("PASSENGER {} ROLES WERE UPDATED TO", roles);
     }
+
+    private Specification<Passenger> getSpecification(Map<String, Object> parameters) {
+        return (root, query, criteriaBuilder) -> {
+            Specification<Passenger> airportSpecification = passengerSpecificationBuilder.getSpecification(Optional.empty(), parameters);
+            return airportSpecification.and(airportSpecification)
+                    .toPredicate(root, query, criteriaBuilder);
+        };
+    }
+
 }

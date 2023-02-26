@@ -7,11 +7,7 @@ import com.company.innowise.airticketsapp.businessservice.service.FlightService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import static com.company.innowise.airticketsapp.businessservice.model.Flight_.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,17 +19,9 @@ public class FlightController {
     @GetMapping("/")
     public List<FlightDto> getAll(@RequestParam(defaultValue = "10", required = false) Integer size,
                                   @RequestParam(defaultValue = "0", required = false) Integer page,
-                                  @RequestParam(required = false) String to,
-                                  @RequestParam(required = false) String from,
-                                  @RequestParam(required = false) LocalDateTime timeDeparture,
-                                  @RequestParam(required = false) LocalDateTime timeArrive) {
-
-        Map<String, Object> params = new HashMap<>();
-        params.compute(TO, (k, v)-> to);
-        params.compute(FROM, (k, v)-> from);
-        params.compute(TIME_DEPARTURE, (k, v)-> timeDeparture);
-        params.compute(TIME_ARRIVE, (k, v)-> timeArrive);
-        return flightService.getAll(params, size, page);
+                                  @RequestParam String to,
+                                  @RequestParam String from) {
+        return flightService.getAll(to, from, size, page);
     }
 
     @GetMapping("/{id}")
@@ -56,4 +44,5 @@ public class FlightController {
     public void deleteFlight(@PathVariable Integer id) {
         flightService.deleteFlight(id);
     }
+
 }

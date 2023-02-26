@@ -15,13 +15,15 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @PostMapping("/pay/{ticketId}")
-    public void payTicket(@PathVariable Long ticketId) {
+    public String payTicket(@PathVariable Long ticketId) {
         paymentService.purchaseTicket(ticketId);
+        return "ticket was paid";
     }
 
     @PostMapping("/sell/{ticketId}")
-    public void sellTicket(@PathVariable Long ticketId) {
+    public String sellTicket(@PathVariable Long ticketId) {
         paymentService.sellTicket(ticketId);
+        return "ticket was sold";
     }
 
 }

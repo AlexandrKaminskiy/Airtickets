@@ -1,8 +1,11 @@
 package com.company.innowise.airticketsapp.businessservice.service;
 
 import com.company.innowise.airticketsapp.businessservice.dto.NewPassengerDto;
+import com.company.innowise.airticketsapp.businessservice.mail.MailService;
+import com.company.innowise.airticketsapp.businessservice.model.ActivatorLink;
 import com.company.innowise.airticketsapp.businessservice.model.Passenger;
 import com.company.innowise.airticketsapp.businessservice.model.Role;
+import com.company.innowise.airticketsapp.businessservice.repository.ActivatorLinkRepository;
 import com.company.innowise.airticketsapp.businessservice.repository.PassengerRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
@@ -28,11 +31,28 @@ class PassengerServiceTest {
     @MockBean
     private PasswordEncoder passwordEncoder;
 
+    @MockBean
+    private MailService mailService;
+
+    @MockBean
+    private ActivatorLinkRepository activatorLinkRepository;
+
     @Test
     void signUp() {
         Mockito.doReturn(new ArrayList<>())
                 .when(passengerRepository)
                 .getPassengerByUsernameOrEmail(
+                        ArgumentMatchers.anyString(),
+                        ArgumentMatchers.anyString()
+                );
+        Mockito.doReturn(new ActivatorLink())
+                .when(activatorLinkRepository)
+                .save(
+                        ArgumentMatchers.any(ActivatorLink.class)
+                );
+        Mockito.doNothing()
+                .when(mailService)
+                .sendMail(
                         ArgumentMatchers.anyString(),
                         ArgumentMatchers.anyString()
                 );
@@ -59,4 +79,5 @@ class PassengerServiceTest {
         Mockito.verify(passengerRepository, Mockito.times(1))
                 .save(ArgumentMatchers.any(Passenger.class));
     }
+
 }

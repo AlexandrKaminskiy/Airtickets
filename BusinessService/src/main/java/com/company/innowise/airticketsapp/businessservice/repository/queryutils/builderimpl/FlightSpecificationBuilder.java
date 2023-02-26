@@ -7,11 +7,10 @@ import jakarta.persistence.criteria.From;
 import jakarta.persistence.criteria.Join;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
-import java.time.LocalDateTime;
+
 import java.util.Map;
 import java.util.Optional;
-import static com.company.innowise.airticketsapp.businessservice.model.Flight_.TIME_ARRIVE;
-import static com.company.innowise.airticketsapp.businessservice.model.Flight_.TIME_DEPARTURE;
+
 import static com.company.innowise.airticketsapp.businessservice.model.PrimaryEntity_.ID;
 
 @Component
@@ -25,17 +24,8 @@ public class FlightSpecificationBuilder implements AbstractSpecificationBuilder<
             return criteriaBuilder.and(
                     ParameterValidator.builder()
                             .add(criteriaBuilder.equal(from.get(ID),
-                                            parameters.get(flightId)),
+                                    parameters.get(flightId)),
                                     Optional.ofNullable(parameters.get(flightId)))
-                            .add(criteriaBuilder.greaterThanOrEqualTo(from.get(TIME_ARRIVE),
-                                    (LocalDateTime) parameters.get(TIME_ARRIVE)),
-                                    Optional.ofNullable(parameters.get(TIME_ARRIVE)))
-                            .add(criteriaBuilder.lessThanOrEqualTo(from.get(TIME_DEPARTURE),
-                                    (LocalDateTime) parameters.get(TIME_DEPARTURE)),
-                                    Optional.ofNullable(parameters.get(TIME_DEPARTURE)))
-                            .add(criteriaBuilder.equal(from.get(ID),
-                                            parameters.get(ID)),
-                                    Optional.ofNullable(parameters.get(ID)))
                             .build());
         });
     }
