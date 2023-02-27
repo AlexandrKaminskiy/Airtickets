@@ -8,8 +8,6 @@ import com.company.innowise.airticketsapp.businessservice.mapper.impl.FlightMapp
 import com.company.innowise.airticketsapp.businessservice.model.Airport;
 import com.company.innowise.airticketsapp.businessservice.model.Flight;
 import com.company.innowise.airticketsapp.businessservice.repository.FlightRepository;
-import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.AirportSpecificationBuilder;
-import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.FlightSpecificationBuilder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;

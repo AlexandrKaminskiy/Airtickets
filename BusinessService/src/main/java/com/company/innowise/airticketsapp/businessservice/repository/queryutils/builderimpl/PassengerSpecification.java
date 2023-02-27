@@ -1,7 +1,7 @@
 package com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl;
 
 import com.company.innowise.airticketsapp.businessservice.model.Passenger;
-import com.company.innowise.airticketsapp.businessservice.repository.queryutils.AbstractSpecificationBuilder;
+import com.company.innowise.airticketsapp.businessservice.repository.queryutils.AbstractSpecification;
 import com.company.innowise.airticketsapp.businessservice.repository.queryutils.ParameterValidator;
 import jakarta.persistence.criteria.From;
 import jakarta.persistence.criteria.Join;
@@ -12,7 +12,7 @@ import java.util.Optional;
 import static com.company.innowise.airticketsapp.businessservice.model.Passenger_.*;
 
 @Component
-public class PassengerSpecificationBuilder implements AbstractSpecificationBuilder<Passenger> {
+public class PassengerSpecification implements AbstractSpecification<Passenger> {
 
     @Override
     public <X> Specification<X> getSpecification(Optional<Join<X, Passenger>> join, Map<String, Object> parameters) {

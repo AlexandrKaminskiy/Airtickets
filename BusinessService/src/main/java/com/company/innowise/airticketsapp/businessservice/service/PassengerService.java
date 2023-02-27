@@ -15,7 +15,7 @@ import com.company.innowise.airticketsapp.businessservice.model.Role;
 import com.company.innowise.airticketsapp.businessservice.repository.ActivatorLinkRepository;
 import com.company.innowise.airticketsapp.businessservice.repository.JwtRepository;
 import com.company.innowise.airticketsapp.businessservice.repository.PassengerRepository;
-import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.PassengerSpecificationBuilder;
+import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.PassengerSpecification;
 import com.company.innowise.airticketsapp.businessservice.security.JwtUtils;
 import com.company.innowise.airticketsapp.businessservice.security.PassengerDetails;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +38,7 @@ import java.util.*;
 public class PassengerService {
 
     private final PassengerRepository passengerRepository;
-    private final PassengerSpecificationBuilder passengerSpecificationBuilder;
+    private final PassengerSpecification passengerSpecification;
     private final PassengerMapper passengerMapper;
     private final NewPassengerMapper newPassengerMapper;
     private final PasswordEncoder passwordEncoder;
@@ -143,8 +143,8 @@ public class PassengerService {
 
     private Specification<Passenger> getSpecification(Map<String, Object> parameters) {
         return (root, query, criteriaBuilder) -> {
-            Specification<Passenger> airportSpecification = passengerSpecificationBuilder.getSpecification(Optional.empty(), parameters);
-            return airportSpecification.and(airportSpecification)
+            Specification<Passenger> specification = passengerSpecification.getSpecification(Optional.empty(), parameters);
+            return specification.and(specification)
                     .toPredicate(root, query, criteriaBuilder);
         };
     }
