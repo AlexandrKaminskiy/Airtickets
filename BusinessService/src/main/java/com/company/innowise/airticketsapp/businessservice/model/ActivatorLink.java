@@ -1,6 +1,7 @@
 package com.company.innowise.airticketsapp.businessservice.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,11 +13,12 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@SequenceGenerator(name = "id_generator", sequenceName = "airport_seq", allocationSize = 1)
-public class Airport extends PrimaryEntity {
+@SequenceGenerator(name = "id_generator", sequenceName = "activator_link_id_seq", allocationSize = 1)
+public class ActivatorLink extends PrimaryEntity {
 
-    private String name;
-    private String country;
-    private String town;
+    private String uuid;
+
+    @OneToOne
+    private Passenger passenger;
 
 }

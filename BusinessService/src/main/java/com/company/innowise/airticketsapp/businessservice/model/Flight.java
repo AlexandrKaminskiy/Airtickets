@@ -1,13 +1,11 @@
 package com.company.innowise.airticketsapp.businessservice.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -16,6 +14,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@SequenceGenerator(name = "id_generator", sequenceName = "flight_seq", allocationSize = 1)
 public class Flight extends PrimaryEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -7,8 +7,26 @@ spring:
     generate-ddl: false
     hibernate:
       ddl-auto: validate
+    show-sql: true
   flyway:
     user: postgres
     password: postgres
     schemas: public
     url: jdbc:postgresql://localhost:5432/airtickets
+  mail:
+    host: smtp.yandex.ru
+    username: sasha.pinsk2003@yandex.ru
+    password: brcmexcxqoeupkpk
+    port: 465
+    protocol: smtps
+
+server:
+  port: 8080
+
+jwt:
+  secret: capybaraSecret
+  subject: capybaraApplication
+  access-exp: 1800000
+  refresh-exp: 3600000
+
+hostActivate: localhost:8080/api/auth/activate/
