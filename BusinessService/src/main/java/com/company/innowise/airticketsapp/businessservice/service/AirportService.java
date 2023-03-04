@@ -5,7 +5,7 @@ import com.company.innowise.airticketsapp.businessservice.exception.BusinessExce
 import com.company.innowise.airticketsapp.businessservice.mapper.impl.AirportMapper;
 import com.company.innowise.airticketsapp.businessservice.model.Airport;
 import com.company.innowise.airticketsapp.businessservice.repository.AirportRepository;
-import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.AirportSpecificationBuilder;
+import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.AirportSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
@@ -22,7 +22,7 @@ import java.util.Optional;
 public class AirportService {
 
     private final AirportRepository airportRepository;
-    private final AirportSpecificationBuilder specificationBuilder;
+    private final AirportSpecification airportSpecification;
     private final AirportMapper airportMapper;
 
     public List<Airport> getAll(Map<String, Object> parameters, int size, int page) {
@@ -51,8 +51,8 @@ public class AirportService {
 
     private Specification<Airport> getSpecification(Map<String, Object> parameters) {
         return (root, query, criteriaBuilder) -> {
-            Specification<Airport> airportSpecification = specificationBuilder.getSpecification(Optional.empty(), parameters);
-            return airportSpecification.toPredicate(root, query, criteriaBuilder);
+            Specification<Airport> specificationAirport = airportSpecification.getSpecification(Optional.empty(), parameters);
+            return specificationAirport.toPredicate(root, query, criteriaBuilder);
         };
     }
 
