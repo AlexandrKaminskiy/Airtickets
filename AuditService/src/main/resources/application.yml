@@ -1,7 +1,22 @@
-server:
-  port: 8081
 spring:
   data:
     mongodb:
       database: airtickets-audit
       port: 2717
+  main:
+    web-application-type: none
+
+rabbit:
+  queue: amq-audit
+  exchange:
+    sell: sell-exchange
+    buy: buy-exchange
+    register: register-exchange
+    authenticate: authenticate-exchange
+    change-role: change-role-exchange
+  key:
+    sell: sellroutingkey
+    buy: buyroutingkey
+    register: registerroutingkey
+    authenticate: authenticateroutingkey
+    change-role: changeroleroutingkey

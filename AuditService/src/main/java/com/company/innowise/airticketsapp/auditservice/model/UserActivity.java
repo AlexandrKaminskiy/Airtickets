@@ -17,7 +17,7 @@ public class UserActivity {
     @Id
     private Long id;
 
-    private Long userId;
+    private String username;
 
     private LocalDate activityTime;
 
