@@ -24,8 +24,8 @@ server:
   port: 8080
 
 jwt:
-  secret: capybaraSecret
-  subject: capybaraApplication
+  secret: 18f28c7c775cbfe802b019423e0905fc3e8f9a81bb2e8f95425034efc3aa1767
+  subject: AirticketsApplication
   access-exp: 1800000
   refresh-exp: 3600000
 
