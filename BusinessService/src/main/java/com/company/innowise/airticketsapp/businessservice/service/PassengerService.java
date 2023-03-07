@@ -54,7 +54,10 @@ public class PassengerService {
         return passengerRepository
                 .getPassengerByUsername(passengerDetails.getUsername())
                 .orElseThrow(() -> new BusinessException(ERROR_MESSAGE));
+    }
 
+    public UserDetails getDetails() {
+        return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     public List<PassengerDto> getAll(Map<String, Object> parameters, int size, int page) {
@@ -141,12 +144,27 @@ public class PassengerService {
         log.info("PASSENGER {} ROLES WERE UPDATED TO", roles);
     }
 
+    @Transactional
+    public Token updateToken() {
+        Passenger passenger = getByDetails();
+        JwtHolder jwtHolder = jwtRepository.findByPassengerUsername(passenger.getUsername())
+                .orElseThrow(() -> new BusinessException(ERROR_MESSAGE));
+        String newAccessToken = jwtUtils.createToken(getDetails(), true);
+        String newRefreshToken = jwtUtils.createToken(getDetails(), false);
+        jwtHolder.setAccessToken(newAccessToken);
+        jwtHolder.setRefreshToken(newRefreshToken);
+        jwtRepository.save(jwtHolder);
+        return new Token(newAccessToken, newRefreshToken);
+    }
+
     private Specification<Passenger> getSpecification(Map<String, Object> parameters) {
         return (root, query, criteriaBuilder) -> {
-            Specification<Passenger> specification = passengerSpecification.getSpecification(Optional.empty(), parameters);
+            Specification<Passenger> specification = passengerSpecification
+                    .getSpecification(Optional.empty(), parameters);
             return specification.and(specification)
                     .toPredicate(root, query, criteriaBuilder);
         };
     }
+
 
 }

@@ -9,5 +9,7 @@ import java.util.Optional;
 public interface JwtRepository extends JpaRepository<JwtHolder, Long> {
 
     Optional<JwtHolder> findByPassengerUsername(String username);
+    Optional<JwtHolder> findByAccessToken(String token);
+    Optional<JwtHolder> findByRefreshToken(String token);
 
 }

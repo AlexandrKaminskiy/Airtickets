@@ -15,14 +15,14 @@ public class ActivityHistoryController {
 
     private final ActivityHistoryService activityHistoryService;
 
-    @GetMapping("/{username}")
+    @GetMapping("/user/{username}")
     public List<UserInfo> getUserActions(@PathVariable String username,
                                          @RequestParam(defaultValue = "0") Integer page,
                                          @RequestParam(defaultValue = "10") Integer size) {
         return activityHistoryService.getUserActivityInfo(username, page, size);
     }
 
-    @GetMapping("/{activity}")
+    @GetMapping("/activity/{activity}")
     public List<UserInfo> getUserActions(@PathVariable Activity activity,
                                          @RequestParam(defaultValue = "0") Integer page,
                                          @RequestParam(defaultValue = "10") Integer size) {

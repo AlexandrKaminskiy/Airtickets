@@ -26,11 +26,16 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String pathInfo = request.getServletPath();
-        if (!pathInfo.startsWith("/api/auth/")) {
+
+        if (!pathInfo.startsWith("/api/auth/") || pathInfo.equals("/api/auth/refresh")) {
             try {
                 String token = request.getHeader(HttpHeaders.AUTHORIZATION);
                 String accessToken = token.split(" ")[1];
-                UserDetails userDetails = jwtUtils.verifyToken(accessToken);
+                boolean isAccess = true;
+                if (pathInfo.equals("/api/auth/refresh")) {
+                    isAccess = false;
+                }
+                UserDetails userDetails = jwtUtils.verifyToken(accessToken, isAccess);
                 Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (Exception e) {

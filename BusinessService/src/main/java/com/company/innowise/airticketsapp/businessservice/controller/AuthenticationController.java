@@ -25,6 +25,11 @@ public class AuthenticationController {
         return passengerService.signIn(passengerCredentials);
     }
 
+    @PostMapping("/refresh")
+    public Token updateToken() {
+        return passengerService.updateToken();
+    }
+
     @GetMapping("/activate/{uuid}")
     public String signUp(@PathVariable String uuid) {
         return passengerService.activatePassenger(uuid);

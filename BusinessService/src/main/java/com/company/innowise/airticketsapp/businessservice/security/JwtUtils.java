@@ -55,17 +55,23 @@ public class JwtUtils {
                 .withIssuer(iss)
                 .withClaim("username", client.getUsername())
                 .withIssuedAt(new Date())
-                .withClaim("roles", client.getAuthorities().stream().map((GrantedAuthority::getAuthority)).toList())
+                .withClaim("roles", client.getAuthorities().stream()
+                        .map((GrantedAuthority::getAuthority)).toList())
                 .withExpiresAt(new Date(System.currentTimeMillis() + expired))
                 .sign(algorithm);
     }
 
     @Transactional
-    public PassengerDetails verifyToken(String token) {
+    public PassengerDetails verifyToken(String token, boolean isAccess) {
         DecodedJWT decodedJWT = verifier.verify(token);
         String username = decodedJWT.getClaim("username").asString();
         Passenger passenger = clientRepository.getPassengerByUsername(username).orElseThrow();
-        jwtRepository.findByPassengerUsername(passenger.getUsername());
+        if (isAccess)  {
+            jwtRepository.findByAccessToken(token).orElseThrow();
+        } else {
+            jwtRepository.findByRefreshToken(token).orElseThrow();
+        }
+
         return new PassengerDetails(passenger.getUsername(), passenger.getPassword(),
                 passenger.getRoles().stream()
                         .map((role)->new SimpleGrantedAuthority(role.name()))
