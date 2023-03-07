@@ -39,6 +39,7 @@ public class JwtFilter extends OncePerRequestFilter {
                 Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (Exception e) {
+                SecurityContextHolder.clearContext();
                 log.warn("USER IS NOT AUTHENTICATED");
             }
         }
