@@ -1,14 +1,10 @@
 spring:
-
   data:
     mongodb:
       database: airtickets-audit
       port: 2717
       host: localhost
       uri: mongodb://localhost:2717/airtickets-audit
-  main:
-    web-application-type: none
-
 rabbit:
   queue: amq-audit
   exchange:
@@ -23,3 +19,8 @@ rabbit:
     register: registerroutingkey
     authenticate: authenticateroutingkey
     change-role: changeroleroutingkey
+
+server:
+  port: 8081
+
+mainhost: http://localhost:8080/**

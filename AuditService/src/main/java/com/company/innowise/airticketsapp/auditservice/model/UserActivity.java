@@ -2,25 +2,32 @@ package com.company.innowise.airticketsapp.auditservice.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-@Document
-@AllArgsConstructor
 @Getter
 @Setter
+@Document
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserActivity {
-
-    @Id
-    private Long id;
 
     private String username;
 
-    private LocalDate activityTime;
+    private LocalDateTime activityTime;
 
     private Activity activity;
 
+    @Override
+    public String toString() {
+        return "UserActivity{" +
+                  "username='" + username + '\'' +
+                ", activityTime=" + activityTime +
+                ", activity=" + activity +
+                '}';
+    }
 }

@@ -14,10 +14,16 @@ public class UserService {
     private final UserActivityRepository userActivityRepository;
 
     public List<UserActivity> getUserActivity(String username, Integer page, Integer size) {
-        return userActivityRepository.findByUsername(username, Pageable.ofSize(size).withPage(page)).toList();
+        return userActivityRepository
+                .findByUsernameOrderByActivityTimeDesc(username, Pageable.ofSize(size).withPage(page)).toList();
     }
 
     public List<UserActivity> getActivityInfo(Activity activity, Integer page, Integer size) {
-        return userActivityRepository.findByActivity(activity, Pageable.ofSize(size).withPage(page)).toList();
+        return userActivityRepository
+                .findByActivityOrderByActivityTimeDesc(activity, Pageable.ofSize(size).withPage(page)).toList();
+    }
+
+    public void addActivity(UserActivity userActivity) {
+        userActivityRepository.insert(userActivity);
     }
 }

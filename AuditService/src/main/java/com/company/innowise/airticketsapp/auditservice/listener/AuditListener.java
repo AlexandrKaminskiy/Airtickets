@@ -17,10 +17,10 @@ public class AuditListener {
 
     private UserActivityRepository userActivityRepository;
 
-    @RabbitListener(bindings = { @QueueBinding(exchange = @Exchange("${rabbit.exchange.authenticate}"),
-            key = "${rabbit.key.authenticate}", value = @Queue("${rabbit.queue}")) } )
-    public void audit(UserActivity userActivity) {
-        userActivityRepository.insert(userActivity);
-    }
+//    @RabbitListener(bindings = { @QueueBinding(exchange = @Exchange("${rabbit.exchange.authenticate}"),
+//            key = "${rabbit.key.authenticate}", value = @Queue("${rabbit.queue}")) } )
+//    public void audit(UserActivity userActivity) {
+//        userActivityRepository.insert(userActivity);
+//    }
 
 }
