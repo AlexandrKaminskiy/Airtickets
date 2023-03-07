@@ -30,3 +30,5 @@ jwt:
   refresh-exp: 3600000
 
 hostActivate: localhost:8080/api/auth/activate/
+
+auditHost: localhost:8081
