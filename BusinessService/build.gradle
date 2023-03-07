@@ -29,6 +29,7 @@ ext {
     jwtVersion = '4.2.2'
     lombokVersion = '1.18.22'
     jpaMetamodelVersion = '6.1.6.Final'
+    feignClientVersion = '1.4.7.RELEASE'
 }
 
 dependencies {
@@ -37,6 +38,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-feign', version: "${feignClientVersion}"
     implementation group: 'org.modelmapper', name: 'modelmapper', version: "${modelmapperVersion}"
     annotationProcessor group: 'org.hibernate', name: 'hibernate-jpamodelgen', version: "${jpaMetamodelVersion}"
     implementation group: 'org.hibernate.validator', name: 'hibernate-validator', version: "${hiberateVersion}"
