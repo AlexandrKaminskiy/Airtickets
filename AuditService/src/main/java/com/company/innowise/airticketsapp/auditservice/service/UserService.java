@@ -4,10 +4,12 @@ import com.company.innowise.airticketsapp.auditservice.model.Activity;
 import com.company.innowise.airticketsapp.auditservice.model.UserActivity;
 import com.company.innowise.airticketsapp.auditservice.repository.UserActivityRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -25,5 +27,7 @@ public class UserService {
 
     public void addActivity(UserActivity userActivity) {
         userActivityRepository.insert(userActivity);
+        log.info("NEW RECORD {}", userActivity);
     }
+
 }

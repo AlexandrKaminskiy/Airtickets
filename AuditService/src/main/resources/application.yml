@@ -6,21 +6,7 @@ spring:
       host: localhost
       uri: mongodb://localhost:2717/airtickets-audit
 rabbit:
-  queue: amq-audit
-  exchange:
-    sell: sell-exchange
-    buy: buy-exchange
-    register: register-exchange
-    authenticate: authenticate-exchange
-    change-role: change-role-exchange
-  key:
-    sell: sellroutingkey
-    buy: buyroutingkey
-    register: registerroutingkey
-    authenticate: authenticateroutingkey
-    change-role: changeroleroutingkey
+  queue: amqp-audit
 
 server:
   port: 8081
-
-mainhost: http://localhost:8080/**

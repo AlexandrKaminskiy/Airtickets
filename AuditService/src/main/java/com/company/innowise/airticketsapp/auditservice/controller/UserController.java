@@ -24,8 +24,8 @@ public class UserController {
 
     @GetMapping("/activity/{activity}")
     public List<UserActivity> getActivity(@PathVariable Activity activity,
-                                      @RequestParam int page,
-                                      @RequestParam int size) {
+                                      @RequestParam(defaultValue = "0") int page,
+                                      @RequestParam(defaultValue = "10") int size) {
         return userService.getActivityInfo(activity, page, size);
     }
 }
