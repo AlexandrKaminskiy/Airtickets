@@ -1,13 +1,20 @@
 package com.company.innowise.airticketsapp.businessservice.service;
 
+import com.company.innowise.airticketsapp.businessservice.dto.Activity;
+import com.company.innowise.airticketsapp.businessservice.dto.UserInfo;
 import com.company.innowise.airticketsapp.businessservice.exception.BusinessException;
 import com.company.innowise.airticketsapp.businessservice.model.Passenger;
 import com.company.innowise.airticketsapp.businessservice.model.Ticket;
 import com.company.innowise.airticketsapp.businessservice.repository.TicketRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Service
@@ -16,6 +23,13 @@ public class PaymentService {
 
     private final TicketRepository ticketRepository;
     private final PassengerService passengerService;
+    private final RabbitTemplate rabbitTemplate;
+
+    @Value("${rabbit.exchange}")
+    private String exchange;
+
+    @Value("${rabbit.routing-key}")
+    private String routingKey;
 
     @Transactional
     public void purchaseTicket(Long ticketId) {
@@ -29,6 +43,8 @@ public class PaymentService {
         }
         ticket.setPassenger(passenger);
         ticketRepository.save(ticket);
+        CompletableFuture.runAsync(() -> rabbitTemplate.convertAndSend(exchange, routingKey,
+                new UserInfo(passenger.getUsername(), LocalDateTime.now(), Activity.BUY_TICKET)));
         log.info("TICKET WITH ID {} WAS BOUGHT BY {}", ticketId, passenger.getUsername());
     }
 
@@ -44,6 +60,8 @@ public class PaymentService {
         }
         ticket.setPassenger(null);
         ticketRepository.save(ticket);
+        CompletableFuture.runAsync(() -> rabbitTemplate.convertAndSend(exchange, routingKey,
+                new UserInfo(passenger.getUsername(), LocalDateTime.now(), Activity.SELL_TICKET)));
         log.info("TICKET WITH ID {} WAS SOLD BY {}", ticketId, passenger.getUsername());
     }
 

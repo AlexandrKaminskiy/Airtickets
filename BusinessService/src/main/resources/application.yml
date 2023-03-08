@@ -32,3 +32,8 @@ jwt:
 hostActivate: localhost:8080/api/auth/activate/
 
 auditHost: localhost:8081
+
+rabbit:
+  queue-name: amqp-audit
+  exchange: activity
+  routing-key: user.activity

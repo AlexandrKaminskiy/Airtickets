@@ -1,9 +1,6 @@
 package com.company.innowise.airticketsapp.businessservice.service;
 
-import com.company.innowise.airticketsapp.businessservice.dto.NewPassengerDto;
-import com.company.innowise.airticketsapp.businessservice.dto.PassengerCredentials;
-import com.company.innowise.airticketsapp.businessservice.dto.PassengerDto;
-import com.company.innowise.airticketsapp.businessservice.dto.Token;
+import com.company.innowise.airticketsapp.businessservice.dto.*;
 import com.company.innowise.airticketsapp.businessservice.exception.BusinessException;
 import com.company.innowise.airticketsapp.businessservice.mail.MailService;
 import com.company.innowise.airticketsapp.businessservice.mapper.impl.NewPassengerMapper;
@@ -20,6 +17,8 @@ import com.company.innowise.airticketsapp.businessservice.security.JwtUtils;
 import com.company.innowise.airticketsapp.businessservice.security.PassengerDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,7 +29,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
 @Slf4j
 @Service
@@ -47,7 +50,14 @@ public class PassengerService {
     private final JwtRepository jwtRepository;
     private final ActivatorLinkRepository activatorLinkRepository;
     private final MailService mailService;
+    private final RabbitTemplate rabbitTemplate;
     private final String ERROR_MESSAGE = "passenger not found";
+
+    @Value("${rabbit.routing-key}")
+    private String routingKey;
+
+    @Value("${rabbit.exchange}")
+    private String exchange;
 
     public Passenger getByDetails() {
         UserDetails passengerDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -131,17 +141,22 @@ public class PassengerService {
         passenger.setRoles(new HashSet<>(Set.of(Role.ROLE_PASSENGER)));
         passengerRepository.save(passenger);
         activatorLinkRepository.delete(link);
+        CompletableFuture.runAsync(() -> rabbitTemplate.convertAndSend(exchange, routingKey,
+                new UserInfo(passenger.getUsername(), LocalDateTime.now(), Activity.REGISTERED)));
         log.info("PASSENGER {} IS ACTIVE", passenger.getUsername());
         return "passenger is active";
     }
 
     @Transactional
-    public void changeRole(String username, Set<Role> roles) {
+    public Set<Role> changeRole(String username, Set<Role> roles) {
         Passenger passenger = passengerRepository
                 .getPassengerByUsername(username).orElseThrow(() -> new BusinessException(ERROR_MESSAGE));
         passenger.setRoles(roles);
         passengerRepository.save(passenger);
-        log.info("PASSENGER {} ROLES WERE UPDATED TO", roles);
+        CompletableFuture.runAsync(() -> rabbitTemplate.convertAndSend(exchange, routingKey,
+                new UserInfo(passenger.getUsername(), LocalDateTime.now(), Activity.CHANGE_ROLE)));
+        log.info("PASSENGER {} ROLES WERE UPDATED TO {}", passenger.getId(), roles);
+        return roles;
     }
 
     @Transactional

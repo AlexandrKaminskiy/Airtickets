@@ -29,7 +29,7 @@ ext {
     jwtVersion = '4.2.2'
     lombokVersion = '1.18.22'
     jpaMetamodelVersion = '6.1.6.Final'
-    feignCoreVersion = '4.0.1'
+    springCloudVersion = '4.0.1'
 }
 
 dependencies {
@@ -38,16 +38,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-
-//    implementation group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core', version: "${feignCoreVersion}"
-//    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-feign', version: '1.4.7.RELEASE'
-//    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-//    implementation 'org.springframework.cloud:spring-cloud-openfeign-core'
-//    implementation 'org.springframework.cloud:spring-cloud-starter'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: '4.0.1'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core', version: '4.0.1'
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter', version: '4.0.1'
-
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: "${springCloudVersion}"
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core', version: "${springCloudVersion}"
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter', version: "${springCloudVersion}"
+    implementation 'org.springframework.boot:spring-boot-starter-amqp'
     implementation group: 'org.modelmapper', name: 'modelmapper', version: "${modelmapperVersion}"
     annotationProcessor group: 'org.hibernate', name: 'hibernate-jpamodelgen', version: "${jpaMetamodelVersion}"
     implementation group: 'org.hibernate.validator', name: 'hibernate-validator', version: "${hiberateVersion}"

@@ -34,9 +34,9 @@ public class PassengerController {
     }
 
     @PutMapping("/change-role/{username}")
-    public void changeRole(@PathVariable String username,
+    public Set<Role> changeRole(@PathVariable String username,
                            @RequestBody Set<Role> roles) {
-        passengerService.changeRole(username, roles);
+        return passengerService.changeRole(username, roles);
     }
 
     @GetMapping("/{username}")

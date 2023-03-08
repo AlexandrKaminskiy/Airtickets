@@ -26,7 +26,6 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String pathInfo = request.getServletPath();
-
         if (!pathInfo.startsWith("/api/auth/") || pathInfo.equals("/api/auth/refresh")) {
             try {
                 String token = request.getHeader(HttpHeaders.AUTHORIZATION);
@@ -43,7 +42,6 @@ public class JwtFilter extends OncePerRequestFilter {
                 log.warn("USER IS NOT AUTHENTICATED");
             }
         }
-
         filterChain.doFilter(request, response);
     }
 
