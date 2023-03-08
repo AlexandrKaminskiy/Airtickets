@@ -30,6 +30,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -59,15 +60,8 @@ public class PassengerService {
     @Value("${rabbit.exchange}")
     private String exchange;
 
-    public Passenger getByDetails() {
-        UserDetails passengerDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return passengerRepository
-                .getPassengerByUsername(passengerDetails.getUsername())
-                .orElseThrow(() -> new BusinessException(ERROR_MESSAGE));
-    }
-
-    public UserDetails getDetails() {
-        return (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public Passenger getByUsername(String username) {
+        return passengerRepository.getPassengerByUsername(username).orElseThrow(() -> new BusinessException(ERROR_MESSAGE));
     }
 
     public List<PassengerDto> getAll(Map<String, Object> parameters, int size, int page) {
@@ -82,12 +76,10 @@ public class PassengerService {
                 .orElseThrow(()->new BusinessException(ERROR_MESSAGE)));
     }
 
-    public PassengerDto getProfile() {
-        PassengerDetails passengerDetails = (PassengerDetails) SecurityContextHolder
-                .getContext().getAuthentication().getPrincipal();
+    public PassengerDto getProfile(Principal principal) {
         return passengerMapper
                 .toDto(passengerRepository
-                        .getPassengerByUsername(passengerDetails.getUsername())
+                        .getPassengerByUsername(principal.getName())
                         .orElseThrow(()->new BusinessException(ERROR_MESSAGE)));
     }
 
@@ -118,8 +110,8 @@ public class PassengerService {
         String username = passengerCredentials.getUsername();
         Authentication authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(username, password));
-        String accessToken = jwtUtils.createToken((UserDetails) authentication.getPrincipal(), true);
-        String refreshToken = jwtUtils.createToken((UserDetails) authentication.getPrincipal(), false);
+        String accessToken = jwtUtils.createToken(authentication, true);
+        String refreshToken = jwtUtils.createToken(authentication, false);
         Passenger passenger = passengerRepository
                         .getPassengerByUsername(username).orElseThrow(() -> new BusinessException(ERROR_MESSAGE));
         jwtRepository.findByPassengerUsername(passenger.getUsername()).ifPresent(jwtRepository::delete);
@@ -160,12 +152,11 @@ public class PassengerService {
     }
 
     @Transactional
-    public Token updateToken() {
-        Passenger passenger = getByDetails();
-        JwtHolder jwtHolder = jwtRepository.findByPassengerUsername(passenger.getUsername())
+    public Token updateToken(Principal principal) {
+        JwtHolder jwtHolder = jwtRepository.findByPassengerUsername(principal.getName())
                 .orElseThrow(() -> new BusinessException(ERROR_MESSAGE));
-        String newAccessToken = jwtUtils.createToken(getDetails(), true);
-        String newRefreshToken = jwtUtils.createToken(getDetails(), false);
+        String newAccessToken = jwtUtils.createToken(principal, true);
+        String newRefreshToken = jwtUtils.createToken(principal, false);
         jwtHolder.setAccessToken(newAccessToken);
         jwtHolder.setRefreshToken(newRefreshToken);
         jwtRepository.save(jwtHolder);

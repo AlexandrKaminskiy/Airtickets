@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/auth")
@@ -26,8 +28,8 @@ public class AuthenticationController {
     }
 
     @PostMapping("/refresh")
-    public Token updateToken() {
-        return passengerService.updateToken();
+    public Token updateToken(Principal principal) {
+        return passengerService.updateToken(principal);
     }
 
     @GetMapping("/activate/{uuid}")

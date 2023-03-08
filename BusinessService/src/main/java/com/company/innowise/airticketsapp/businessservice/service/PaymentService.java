@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.concurrent.CompletableFuture;
 
@@ -32,9 +33,9 @@ public class PaymentService {
     private String routingKey;
 
     @Transactional
-    public void purchaseTicket(Long ticketId) {
+    public void purchaseTicket(Long ticketId, Principal principal) {
         log.info("ATTEMPT TO BY TICKET WITH ID {}", ticketId);
-        Passenger passenger = passengerService.getByDetails();
+        Passenger passenger = passengerService.getByUsername(principal.getName());
         Ticket ticket = ticketRepository
                 .findById(ticketId).orElseThrow(() -> new BusinessException("ticket not found"));
         if (ticket.getPassenger() != null) {
@@ -49,9 +50,9 @@ public class PaymentService {
     }
 
     @Transactional
-    public void sellTicket(Long ticketId) {
+    public void sellTicket(Long ticketId, Principal principal) {
         log.info("ATTEMPT TO SELL TICKET WITH ID {}", ticketId);
-        Passenger passenger = passengerService.getByDetails();
+        Passenger passenger = passengerService.getByUsername(principal.getName());
         Ticket ticket = ticketRepository
                 .findById(ticketId).orElseThrow(() -> new BusinessException("ticket not found"));
         if (ticket.getPassenger() != passenger) {

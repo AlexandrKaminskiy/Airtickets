@@ -10,12 +10,14 @@ import com.company.innowise.airticketsapp.businessservice.repository.PassengerRe
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.Date;
 
 @Component
@@ -49,7 +51,8 @@ public class JwtUtils {
                 .build();
     }
 
-    public String createToken(UserDetails client, boolean isAccess) {
+    public String createToken(Principal principal, boolean isAccess) {
+        UserDetails client = (UserDetails) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
         long expired = isAccess ? accessExpired : refreshExpired;
         return JWT.create()
                 .withIssuer(iss)

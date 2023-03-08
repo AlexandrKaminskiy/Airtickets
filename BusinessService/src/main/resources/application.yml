@@ -37,3 +37,10 @@ rabbit:
   queue-name: amqp-audit
   exchange: activity
   routing-key: user.activity
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:8761/eureka/

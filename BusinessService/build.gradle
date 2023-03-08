@@ -55,6 +55,7 @@ dependencies {
     implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: "${swaggerUiVer}"
     implementation group: 'org.hibernate', name: 'hibernate-validator', version: "${hiberateVersion}"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
 
 }
 
