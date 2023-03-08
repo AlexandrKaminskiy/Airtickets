@@ -42,7 +42,7 @@ public class WebConfiguration {
                         .requestMatchers("/api/profile/**", "/api/payment/**")
                             .hasRole("PASSENGER")
                         .requestMatchers( "/api/auth/refresh")
-                            .hasRole("PASSENGER")
+                            .authenticated()
                         .anyRequest()
                             .permitAll()
                 )
