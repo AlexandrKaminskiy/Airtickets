@@ -15,51 +15,52 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.HashSet;
 import java.util.Set;
+
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class ProfileControllerTest {
-
+class PassengerControllerTest {
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private PassengerRepository passengerRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Autowired
     private PassengerService passengerService;
+
+    @Autowired
+    private PassengerRepository repository;
+
     private Passenger passenger;
 
     @BeforeEach
     @Transactional
     public void setup() {
         passenger = new Passenger();
-        passenger.setRoles(new HashSet<>(Set.of(Role.ROLE_PASSENGER, Role.ROLE_MANAGER, Role.ROLE_ADMIN)));
+        passenger.setRoles(new HashSet<>(Set.of(Role.ROLE_PASSENGER, Role.ROLE_MANAGER)));
         passenger.setUsername("test_user");
         passenger.setPassword(passwordEncoder.encode("test_password"));
         passenger.setIsActive(true);
-        passengerRepository.save(passenger);
+        repository.save(passenger);
     }
-
     @Test
-    void getProfile() throws Exception {
+    void getPassengerForbidden() throws Exception {
         Token token = passengerService.signIn(new PassengerCredentials("test_user", "test_password"));
-        mockMvc.perform(get("/api/profile/").header(AUTHORIZATION, "Bearer " + token.getAccessToken()))
-                .andExpect(status().isOk());
+        mockMvc.perform(get("/api/passenger/0").header(AUTHORIZATION, "Bearer " + token.getAccessToken()))
+                .andExpect(status().isForbidden());
     }
 
     @AfterEach
     @Transactional
     public void removePassenger() {
-        passengerRepository.delete(passenger);
+        repository.delete(passenger);
     }
 
 }

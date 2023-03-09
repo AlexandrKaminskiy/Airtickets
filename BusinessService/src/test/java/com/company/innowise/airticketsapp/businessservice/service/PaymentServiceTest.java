@@ -40,7 +40,8 @@ class PaymentServiceTest {
         Mockito.doReturn(Optional.of(new Ticket()))
                 .when(ticketRepository)
                 .findById(ArgumentMatchers.anyLong());
-        paymentService.purchaseTicket(0L, principal);
+        paymentService.purchaseTicket(0L,
+                new UsernamePasswordAuthenticationToken(null, null, null));
         Mockito.verify(ticketRepository, Mockito.times(1))
                 .save(ArgumentMatchers.any(Ticket.class));
     }
@@ -56,7 +57,8 @@ class PaymentServiceTest {
         Mockito.doReturn(Optional.of(ticket))
                 .when(ticketRepository)
                 .findById(ArgumentMatchers.anyLong());
-        paymentService.sellTicket(0L, principal);
+        paymentService.sellTicket(0L,
+                new UsernamePasswordAuthenticationToken(null, null, null));
         Mockito.verify(ticketRepository, Mockito.times(1))
                 .save(ArgumentMatchers.any(Ticket.class));
     }
