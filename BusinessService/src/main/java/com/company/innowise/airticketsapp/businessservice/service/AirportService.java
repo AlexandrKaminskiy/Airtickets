@@ -5,7 +5,7 @@ import com.company.innowise.airticketsapp.businessservice.exception.BusinessExce
 import com.company.innowise.airticketsapp.businessservice.mapper.impl.AirportMapper;
 import com.company.innowise.airticketsapp.businessservice.model.Airport;
 import com.company.innowise.airticketsapp.businessservice.repository.AirportRepository;
-import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.AirportSpecification;
+import com.company.innowise.airticketsapp.businessservice.repository.queryutils.specificationimpl.AirportSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;

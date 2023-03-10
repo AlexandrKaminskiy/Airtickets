@@ -1,4 +1,4 @@
-package com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl;
+package com.company.innowise.airticketsapp.businessservice.repository.queryutils.specificationimpl;
 
 import com.company.innowise.airticketsapp.businessservice.model.Passenger;
 import com.company.innowise.airticketsapp.businessservice.repository.queryutils.AbstractSpecification;

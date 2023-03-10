@@ -12,9 +12,8 @@ import com.company.innowise.airticketsapp.businessservice.model.Role;
 import com.company.innowise.airticketsapp.businessservice.repository.ActivatorLinkRepository;
 import com.company.innowise.airticketsapp.businessservice.repository.JwtRepository;
 import com.company.innowise.airticketsapp.businessservice.repository.PassengerRepository;
-import com.company.innowise.airticketsapp.businessservice.repository.queryutils.builderimpl.PassengerSpecification;
+import com.company.innowise.airticketsapp.businessservice.repository.queryutils.specificationimpl.PassengerSpecification;
 import com.company.innowise.airticketsapp.businessservice.security.JwtUtils;
-import com.company.innowise.airticketsapp.businessservice.security.PassengerDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -24,8 +23,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +31,6 @@ import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 
 @Slf4j
 @Service
