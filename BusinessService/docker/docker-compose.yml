@@ -1,0 +1,29 @@
+version: '2'
+
+services:
+  app:
+    container_name: business-service
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+      args:
+        JAR_FILE: build/libs/BusinessService-0.0.1-SNAPSHOT.jar
+    ports:
+      - "8080:8080"
+    depends_on:
+      - pdb
+
+  pdb:
+    container_name: business-db
+    image: 'postgres:latest'
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=airtickets
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

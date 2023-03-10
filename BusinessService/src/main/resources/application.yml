@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/airtickets
+    url: jdbc:postgresql://pdb:5432/airtickets
     username: postgres
     password: postgres
   jpa:
@@ -12,7 +12,7 @@ spring:
     user: postgres
     password: postgres
     schemas: public
-    url: jdbc:postgresql://localhost:5432/airtickets
+    url: jdbc:postgresql://pdb:5432/airtickets
   mail:
     host: smtp.yandex.ru
     username: sasha.pinsk2003@yandex.ru

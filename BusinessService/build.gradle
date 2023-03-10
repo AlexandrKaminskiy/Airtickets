@@ -74,3 +74,15 @@ sourceSets {
         }
     }
 }
+
+jar {
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    manifest {
+        attributes "Main-Class": "com.company.innowise.airticketsapp.businessservice.BusinessServiceApplication"
+    }
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
