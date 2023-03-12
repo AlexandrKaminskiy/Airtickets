@@ -16,17 +16,7 @@ import java.time.LocalDateTime;
 public class UserActivity {
 
     private String username;
-
     private LocalDateTime activityTime;
-
     private Activity activity;
 
-    @Override
-    public String toString() {
-        return "UserActivity{" +
-                  "username='" + username + '\'' +
-                ", activityTime=" + activityTime +
-                ", activity=" + activity +
-                '}';
-    }
 }

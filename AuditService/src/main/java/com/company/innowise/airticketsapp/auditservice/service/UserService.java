@@ -15,19 +15,29 @@ import java.util.List;
 public class UserService {
     private final UserActivityRepository userActivityRepository;
 
-    public List<UserActivity> getUserActivity(String username, Integer page, Integer size) {
+    public List<UserActivity> getUserActivity(String username, Pageable pageable) {
+
         return userActivityRepository
-                .findByUsernameOrderByActivityTimeDesc(username, Pageable.ofSize(size).withPage(page)).toList();
+                .findByUsernameOrderByActivityTimeDesc(username,
+                        Pageable.ofSize(pageable.getPageSize())
+                                .withPage(pageable.getPageNumber()))
+                .toList();
     }
 
-    public List<UserActivity> getActivityInfo(Activity activity, Integer page, Integer size) {
+    public List<UserActivity> getActivityInfo(Activity activity, Pageable pageable) {
+
         return userActivityRepository
-                .findByActivityOrderByActivityTimeDesc(activity, Pageable.ofSize(size).withPage(page)).toList();
+                .findByActivityOrderByActivityTimeDesc(activity,
+                        Pageable.ofSize(pageable.getPageSize())
+                                .withPage(pageable.getPageNumber()))
+                .toList();
     }
 
     public void addActivity(UserActivity userActivity) {
+
         userActivityRepository.insert(userActivity);
         log.info("NEW RECORD {}", userActivity);
+
     }
 
 }

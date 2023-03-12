@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface UserActivityRepository extends MongoRepository<UserActivity, Long> {
 
     Page<UserActivity> findByUsernameOrderByActivityTimeDesc(String username, Pageable pageable);
-
     Page<UserActivity> findByActivityOrderByActivityTimeDesc(Activity activity, Pageable pageable);
 
 }

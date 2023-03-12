@@ -24,8 +24,10 @@ public class ApplicationConfiguration {
 
     @Bean
     public MessageConverter messageConverter() {
+
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
+
         return new Jackson2JsonMessageConverter(objectMapper);
     }
 

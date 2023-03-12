@@ -4,6 +4,7 @@ import com.company.innowise.airticketsapp.auditservice.model.Activity;
 import com.company.innowise.airticketsapp.auditservice.model.UserActivity;
 import com.company.innowise.airticketsapp.auditservice.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -17,15 +18,13 @@ public class UserController {
 
     @GetMapping("/user/{username}")
     public List<UserActivity> getUser(@PathVariable String username,
-                                      @RequestParam(defaultValue = "0") Integer page,
-                                      @RequestParam(defaultValue = "10") Integer size) {
-        return userService.getUserActivity(username, page, size);
+                                      Pageable pageable) {
+        return userService.getUserActivity(username, pageable);
     }
 
     @GetMapping("/activity/{activity}")
     public List<UserActivity> getActivity(@PathVariable Activity activity,
-                                      @RequestParam(defaultValue = "0") int page,
-                                      @RequestParam(defaultValue = "10") int size) {
-        return userService.getActivityInfo(activity, page, size);
+                                          Pageable pageable) {
+        return userService.getActivityInfo(activity, pageable);
     }
 }
