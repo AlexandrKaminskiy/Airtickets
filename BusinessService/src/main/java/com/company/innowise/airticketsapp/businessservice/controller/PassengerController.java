@@ -22,7 +22,7 @@ public class PassengerController {
 
     private final PassengerService passengerService;
 
-    @GetMapping("/")
+    @GetMapping
     public List<PassengerDto> getPassengers(@PageableDefault Pageable pageable,
                                             @RequestParam(required = false) String username,
                                             @RequestParam(required = false) String firstname,

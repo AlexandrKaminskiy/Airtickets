@@ -22,7 +22,7 @@ public class AirportController {
 
     private final AirportService airportService;
 
-    @GetMapping("/")
+    @GetMapping
     public List<Airport> getAll(@PageableDefault Pageable pageable,
                                 @RequestParam(required = false) String town,
                                 @RequestParam(required = false) String country,
@@ -41,7 +41,7 @@ public class AirportController {
         return airportService.getById(id);
     }
 
-    @PostMapping("/")
+    @PostMapping
     public AirportDto addAirport(@Valid @RequestBody AirportDto airportDto) {
         return airportService.addAirport(airportDto);
     }

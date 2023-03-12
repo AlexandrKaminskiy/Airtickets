@@ -55,7 +55,7 @@ class ProfileControllerTest {
     void getProfile() throws Exception {
 
         Token token = passengerService.signIn(new PassengerCredentials("test_user", "test_password"));
-        mockMvc.perform(get("/api/profile/").header(AUTHORIZATION, "Bearer " + token.getAccessToken()))
+        mockMvc.perform(get("/api/profile").header(AUTHORIZATION, "Bearer " + token.getAccessToken()))
                 .andExpect(status().isOk());
 
     }

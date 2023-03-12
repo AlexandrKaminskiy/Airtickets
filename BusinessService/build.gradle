@@ -29,7 +29,7 @@ ext {
     jwtVersion = '4.2.2'
     lombokVersion = '1.18.22'
     jpaMetamodelVersion = '6.1.6.Final'
-    springCloudVersion = '4.0.1'
+    springCloudVersion = '4.0.0'
 }
 
 dependencies {
@@ -41,6 +41,7 @@ dependencies {
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: "${springCloudVersion}"
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core', version: "${springCloudVersion}"
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter', version: "${springCloudVersion}"
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-eureka-client', version: "${springCloudVersion}"
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     implementation group: 'org.modelmapper', name: 'modelmapper', version: "${modelmapperVersion}"
     annotationProcessor group: 'org.hibernate', name: 'hibernate-jpamodelgen', version: "${jpaMetamodelVersion}"
@@ -56,7 +57,6 @@ dependencies {
     implementation group: 'org.hibernate', name: 'hibernate-validator', version: "${hiberateVersion}"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-
 }
 
 tasks.named('test') {

@@ -15,7 +15,7 @@ public class ProfileController {
 
     private final PassengerService passengerService;
 
-    @GetMapping("/")
+    @GetMapping
     public PassengerDto getProfile(Principal principal) {
         return passengerService.getProfile(principal);
     }

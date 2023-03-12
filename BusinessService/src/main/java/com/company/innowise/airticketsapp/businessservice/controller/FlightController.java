@@ -18,7 +18,7 @@ public class FlightController {
 
     private final FlightService flightService;
 
-    @GetMapping("/")
+    @GetMapping
     public List<FlightDto> getAll(@PageableDefault Pageable pageable,
                                   @RequestParam String to,
                                   @RequestParam String from) {
@@ -30,7 +30,7 @@ public class FlightController {
         return flightService.getFlight(id);
     }
 
-    @PostMapping("/")
+    @PostMapping()
     public FlightDto addFlight(@RequestBody @Valid NewFlightDto newFlightDto) {
         return flightService.addFlight(newFlightDto);
     }
