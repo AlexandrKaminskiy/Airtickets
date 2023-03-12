@@ -4,12 +4,14 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.company.innowise.airticketsapp.businessservice.exception.BusinessException;
 import com.company.innowise.airticketsapp.businessservice.model.Passenger;
 import com.company.innowise.airticketsapp.businessservice.repository.JwtRepository;
 import com.company.innowise.airticketsapp.businessservice.repository.PassengerRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -39,19 +41,22 @@ public class JwtUtils {
 
     private JWTVerifier verifier;
 
-    private final PassengerRepository clientRepository;
+    private final PassengerRepository passengerRepository;
 
     private final JwtRepository jwtRepository;
 
     @PostConstruct
     public void init() {
+
         algorithm = Algorithm.HMAC256(secret);
         verifier = JWT.require(algorithm)
                 .withIssuer(iss)
                 .build();
+
     }
 
     public String createToken(Principal principal, boolean isAccess) {
+
         UserDetails client = (UserDetails) ((UsernamePasswordAuthenticationToken) principal).getPrincipal();
         long expired = isAccess ? accessExpired : refreshExpired;
         return JWT.create()
@@ -62,22 +67,26 @@ public class JwtUtils {
                         .map((GrantedAuthority::getAuthority)).toList())
                 .withExpiresAt(new Date(System.currentTimeMillis() + expired))
                 .sign(algorithm);
+
     }
 
     @Transactional
     public PassengerDetails verifyToken(String token, boolean isAccess) {
+
         DecodedJWT decodedJWT = verifier.verify(token);
         String username = decodedJWT.getClaim("username").asString();
-        Passenger passenger = clientRepository.getPassengerByUsername(username).orElseThrow();
-        if (isAccess)  {
-            jwtRepository.findByAccessToken(token).orElseThrow();
-        } else {
-            jwtRepository.findByRefreshToken(token).orElseThrow();
+        Passenger passenger = passengerRepository.getPassengerByUsername(username)
+                .orElseThrow(() -> new BusinessException("passenger not exists"));
+        if (isAccess && !jwtRepository.existsByAccessToken(token))  {
+            throw new AuthenticationCredentialsNotFoundException("token not found");
+        }
+        if (!isAccess && !jwtRepository.existsByRefreshToken(token))  {
+            throw new AuthenticationCredentialsNotFoundException("token not found");
         }
 
         return new PassengerDetails(passenger.getUsername(), passenger.getPassword(),
                 passenger.getRoles().stream()
-                        .map((role)->new SimpleGrantedAuthority(role.name()))
+                        .map((role) -> new SimpleGrantedAuthority(role.name()))
                         .toList());
     }
 

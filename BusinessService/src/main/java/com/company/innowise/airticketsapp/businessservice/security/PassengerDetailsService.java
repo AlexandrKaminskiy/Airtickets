@@ -17,9 +17,11 @@ public class PassengerDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
         Passenger passengerByUsername = passengerRepository
                 .getPassengerByUsernameAndIsActive(username, true)
                 .orElseThrow();
+
         return new PassengerDetails(passengerByUsername.getUsername(),
                 passengerByUsername.getPassword(),
                 passengerByUsername.getRoles().stream()

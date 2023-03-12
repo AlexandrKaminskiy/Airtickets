@@ -41,19 +41,23 @@ class ProfileControllerTest {
     @BeforeEach
     @Transactional
     public void setup() {
+
         passenger = new Passenger();
         passenger.setRoles(new HashSet<>(Set.of(Role.ROLE_PASSENGER, Role.ROLE_MANAGER, Role.ROLE_ADMIN)));
         passenger.setUsername("test_user");
         passenger.setPassword(passwordEncoder.encode("test_password"));
         passenger.setIsActive(true);
         passengerRepository.save(passenger);
+
     }
 
     @Test
     void getProfile() throws Exception {
+
         Token token = passengerService.signIn(new PassengerCredentials("test_user", "test_password"));
         mockMvc.perform(get("/api/profile/").header(AUTHORIZATION, "Bearer " + token.getAccessToken()))
                 .andExpect(status().isOk());
+
     }
 
     @AfterEach

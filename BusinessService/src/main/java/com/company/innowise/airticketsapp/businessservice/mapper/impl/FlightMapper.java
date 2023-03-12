@@ -12,10 +12,11 @@ public class FlightMapper implements Mapper<Flight, FlightDto> {
     private final ModelMapper modelMapper;
 
     public FlightMapper() {
+
         modelMapper = new ModelMapper();
         modelMapper.createTypeMap(Flight.class, FlightDto.class);
-
         modelMapper.createTypeMap(FlightDto.class, Flight.class);
+
     }
 
     @Override

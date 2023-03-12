@@ -4,6 +4,8 @@ import com.company.innowise.airticketsapp.businessservice.dto.PassengerDto;
 import com.company.innowise.airticketsapp.businessservice.model.Role;
 import com.company.innowise.airticketsapp.businessservice.service.PassengerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -21,16 +23,17 @@ public class PassengerController {
     private final PassengerService passengerService;
 
     @GetMapping("/")
-    public List<PassengerDto> getPassengers(@RequestParam(defaultValue = "10", required = false) Integer size,
-                                            @RequestParam(defaultValue = "0", required = false) Integer page,
+    public List<PassengerDto> getPassengers(@PageableDefault Pageable pageable,
                                             @RequestParam(required = false) String username,
                                             @RequestParam(required = false) String firstname,
                                             @RequestParam(required = false) String lastname) {
+
         Map<String, Object> params = new HashMap<>();
         params.compute(USERNAME, (k, v) -> username);
-        params.compute(FIRSTNAME, (k, v)-> firstname);
-        params.compute(LASTNAME, (k, v)-> lastname);
-        return passengerService.getAll(params, size, page);
+        params.compute(FIRSTNAME, (k, v) -> firstname);
+        params.compute(LASTNAME, (k, v) -> lastname);
+
+        return passengerService.getAll(params, pageable);
     }
 
     @PutMapping("/change-role/{username}")

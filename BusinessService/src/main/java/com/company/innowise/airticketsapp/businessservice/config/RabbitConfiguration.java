@@ -41,15 +41,19 @@ public class RabbitConfiguration {
 
     @Bean
     public MessageConverter messageConverter() {
+
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
+
         return new Jackson2JsonMessageConverter(mapper);
     }
 
     @Bean
     public AmqpTemplate amqpTemplate() {
+
         RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
         rabbitTemplate.setMessageConverter(messageConverter());
+
         return rabbitTemplate;
     }
 }

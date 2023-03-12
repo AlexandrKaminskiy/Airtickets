@@ -15,7 +15,9 @@ import static com.company.innowise.airticketsapp.businessservice.model.Ticket_.P
 public class TicketSpecification implements AbstractSpecification<Ticket> {
 
     @Override
-    public <X> Specification<X> getSpecification(Optional<Join<X, Ticket>> extRoot, Map<String, Object> parameters) {
+    public <X> Specification<X> getSpecification(Optional<Join<X, Ticket>> extRoot,
+                                                 Map<String, Object> parameters) {
+
         return ((root, query, criteriaBuilder) -> {
             From<X,?> from = extRoot.isPresent() ? extRoot.get() : root;
             String priceFrom = "priceFrom";

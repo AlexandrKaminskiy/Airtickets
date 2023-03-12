@@ -34,6 +34,7 @@ public class PaymentService {
 
     @Transactional
     public void purchaseTicket(Long ticketId, Principal principal) {
+
         log.info("ATTEMPT TO BY TICKET WITH ID {}", ticketId);
         Passenger passenger = passengerService.getByUsername(principal.getName());
         Ticket ticket = ticketRepository
@@ -47,10 +48,12 @@ public class PaymentService {
         CompletableFuture.runAsync(() -> rabbitTemplate.convertAndSend(exchange, routingKey,
                 new UserInfo(passenger.getUsername(), LocalDateTime.now(), Activity.BUY_TICKET)));
         log.info("TICKET WITH ID {} WAS BOUGHT BY {}", ticketId, passenger.getUsername());
+
     }
 
     @Transactional
     public void sellTicket(Long ticketId, Principal principal) {
+
         log.info("ATTEMPT TO SELL TICKET WITH ID {}", ticketId);
         Passenger passenger = passengerService.getByUsername(principal.getName());
         Ticket ticket = ticketRepository
@@ -64,6 +67,7 @@ public class PaymentService {
         CompletableFuture.runAsync(() -> rabbitTemplate.convertAndSend(exchange, routingKey,
                 new UserInfo(passenger.getUsername(), LocalDateTime.now(), Activity.SELL_TICKET)));
         log.info("TICKET WITH ID {} WAS SOLD BY {}", ticketId, passenger.getUsername());
+
     }
 
 }

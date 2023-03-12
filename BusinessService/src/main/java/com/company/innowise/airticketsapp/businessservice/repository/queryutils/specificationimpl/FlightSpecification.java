@@ -17,7 +17,9 @@ import static com.company.innowise.airticketsapp.businessservice.model.PrimaryEn
 public class FlightSpecification implements AbstractSpecification<Flight> {
 
     @Override
-    public <X> Specification<X> getSpecification(Optional<Join<X, Flight>> xFlightJoin, Map<String, Object> parameters) {
+    public <X> Specification<X> getSpecification(Optional<Join<X, Flight>> xFlightJoin,
+                                                 Map<String, Object> parameters) {
+
         return ((root, query, criteriaBuilder) -> {
             From<X,?> from = xFlightJoin.isPresent() ? xFlightJoin.get() : root;
             String flightId = "flightId";

@@ -15,7 +15,9 @@ import static com.company.innowise.airticketsapp.businessservice.model.Passenger
 public class PassengerSpecification implements AbstractSpecification<Passenger> {
 
     @Override
-    public <X> Specification<X> getSpecification(Optional<Join<X, Passenger>> join, Map<String, Object> parameters) {
+    public <X> Specification<X> getSpecification(Optional<Join<X, Passenger>> join,
+                                                 Map<String, Object> parameters) {
+
         return ((root, query, criteriaBuilder) -> {
             From<X,?> from = join.isPresent() ? join.get() : root;
             return criteriaBuilder.and(

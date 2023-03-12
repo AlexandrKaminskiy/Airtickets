@@ -12,9 +12,11 @@ public class AirportMapper implements Mapper<Airport, AirportDto> {
     private final ModelMapper modelMapper;
 
     public AirportMapper() {
+
         modelMapper = new ModelMapper();
         modelMapper.createTypeMap(Airport.class, AirportDto.class);
         modelMapper.createTypeMap(AirportDto.class, Airport.class);
+
     }
 
     @Override

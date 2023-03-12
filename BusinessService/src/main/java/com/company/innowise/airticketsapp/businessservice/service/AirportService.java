@@ -25,31 +25,41 @@ public class AirportService {
     private final AirportSpecification airportSpecification;
     private final AirportMapper airportMapper;
 
-    public List<Airport> getAll(Map<String, Object> parameters, int size, int page) {
+    public List<Airport> getAll(Map<String, Object> parameters, Pageable pageable) {
+
         Specification<Airport> specification = getSpecification(parameters);
-        return airportRepository.findAll(specification, Pageable.ofSize(size).withPage(page)).toList();
+        return airportRepository.findAll(specification,
+                Pageable.ofSize(pageable.getPageSize())
+                        .withPage(pageable.getPageNumber()))
+                .toList();
+
     }
 
     public Airport getById(long id) {
-        return airportRepository.findById(id).orElseThrow(()->new BusinessException("airport not found"));
+        return airportRepository.findById(id).orElseThrow(() -> new BusinessException("airport not found"));
     }
 
     @Transactional
     public AirportDto addAirport(AirportDto airportDto) {
+
         Airport airport = airportMapper.toModel(airportDto);
         airportRepository.save(airport);
         log.info("FLIGHT {} WAS ADDED", airport.getId());
+
         return airportDto;
     }
 
     @Transactional
     public void deleteAirport(long id) {
+
         Airport airport = airportRepository.findById(id).orElseThrow(() -> new BusinessException("airport not found"));
         airportRepository.delete(airport);
         log.info("FLIGHT {} WAS DELETED", airport.getId());
+
     }
 
     private Specification<Airport> getSpecification(Map<String, Object> parameters) {
+
         return (root, query, criteriaBuilder) -> {
             Specification<Airport> specificationAirport = airportSpecification.getSpecification(Optional.empty(), parameters);
             return specificationAirport.toPredicate(root, query, criteriaBuilder);

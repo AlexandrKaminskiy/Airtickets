@@ -31,6 +31,7 @@ class PaymentServiceTest {
 
     @Test
     void purchaseTicket() {
+
         Mockito.doReturn("123")
                 .when(principal)
                 .getName();
@@ -44,10 +45,12 @@ class PaymentServiceTest {
                 new UsernamePasswordAuthenticationToken(null, null, null));
         Mockito.verify(ticketRepository, Mockito.times(1))
                 .save(ArgumentMatchers.any(Ticket.class));
+
     }
 
     @Test
     void sellTicket() {
+
         Passenger passenger = new Passenger();
         Mockito.doReturn(passenger)
                 .when(passengerService)
@@ -61,6 +64,7 @@ class PaymentServiceTest {
                 new UsernamePasswordAuthenticationToken(null, null, null));
         Mockito.verify(ticketRepository, Mockito.times(1))
                 .save(ArgumentMatchers.any(Ticket.class));
+
     }
 
 }

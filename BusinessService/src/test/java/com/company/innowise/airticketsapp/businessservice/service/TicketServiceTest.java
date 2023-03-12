@@ -22,9 +22,11 @@ class TicketServiceTest {
 
     @Test
     void addTickets() {
+
         ticketService.addTickets(new Flight(), 0, BigDecimal.valueOf(0));
         Mockito.verify(ticketRepository, Mockito.times(1))
                 .saveAll(ArgumentMatchers.any(ArrayList.class));
+
     }
 
 }

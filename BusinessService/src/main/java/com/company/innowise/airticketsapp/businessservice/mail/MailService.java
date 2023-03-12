@@ -21,6 +21,7 @@ public class MailService {
     private String sender;
 
     public void sendMail(String email, String uuid) {
+
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(sender);
         message.setTo(email);
@@ -28,6 +29,7 @@ public class MailService {
         message.setText(hostname + uuid);
         javaMailSender.send(message);
         log.info("MAIL WAS SENT TO {}", email);
+
     }
 
 }

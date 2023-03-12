@@ -48,7 +48,7 @@ public class PassengerService {
     private final ActivatorLinkRepository activatorLinkRepository;
     private final MailService mailService;
     private final RabbitTemplate rabbitTemplate;
-    private final String ERROR_MESSAGE = "passenger not found";
+    private static final String ERROR_MESSAGE = "passenger not found";
 
     @Value("${rabbit.routing-key}")
     private String routingKey;
@@ -60,27 +60,35 @@ public class PassengerService {
         return passengerRepository.getPassengerByUsername(username).orElseThrow(() -> new BusinessException(ERROR_MESSAGE));
     }
 
-    public List<PassengerDto> getAll(Map<String, Object> parameters, int size, int page) {
+    public List<PassengerDto> getAll(Map<String, Object> parameters, Pageable pageable) {
+
         Specification<Passenger> specification = getSpecification(parameters);
-        return passengerRepository.findAll(specification, Pageable.ofSize(size).withPage(page)).stream()
+
+        return passengerRepository.findAll(specification,
+                        Pageable.ofSize(pageable.getPageSize())
+                                .withPage(pageable.getPageNumber()))
+                .stream()
                 .map(passengerMapper::toDto)
                 .toList();
     }
 
     public PassengerDto getPassenger(String username) {
+
         return passengerMapper.toDto(passengerRepository.getPassengerByUsername(username)
-                .orElseThrow(()->new BusinessException(ERROR_MESSAGE)));
+                .orElseThrow(() -> new BusinessException(ERROR_MESSAGE)));
     }
 
     public PassengerDto getProfile(Principal principal) {
+
         return passengerMapper
                 .toDto(passengerRepository
                         .getPassengerByUsername(principal.getName())
-                        .orElseThrow(()->new BusinessException(ERROR_MESSAGE)));
+                        .orElseThrow(() -> new BusinessException(ERROR_MESSAGE)));
     }
 
     @Transactional
     public String signUp(NewPassengerDto passengerDto) {
+
         log.info("ATTEMPT TO REGISTER PASSENGER");
         Passenger passenger = newPassengerMapper.toModel(passengerDto);
         List<Passenger> passengers =
@@ -97,11 +105,13 @@ public class PassengerService {
         activatorLinkRepository.save(activatorLink);
         mailService.sendMail(passenger.getEmail(), uuid);
         log.info("PASSENGER {} WAS REGISTERED BUT NOT ACTIVATED", passenger.getUsername());
+
         return passenger.getUsername();
     }
 
     @Transactional
     public Token signIn(PassengerCredentials passengerCredentials) {
+
         String password = passengerCredentials.getPassword();
         String username = passengerCredentials.getUsername();
         Authentication authentication = authenticationManager
@@ -117,11 +127,13 @@ public class PassengerService {
         jwtHolder.setPassenger(passenger);
         jwtRepository.save(jwtHolder);
         log.info("PASSENGER {} SIGNED IN", passengerCredentials.getUsername());
+
         return new Token(accessToken, refreshToken);
     }
 
     @Transactional
     public String activatePassenger(String uuid) {
+
         ActivatorLink link =
                 activatorLinkRepository.findByUuid(uuid).orElseThrow(() -> new BusinessException("incorrect link"));
         Passenger passenger = link.getPassenger();
@@ -132,11 +144,13 @@ public class PassengerService {
         CompletableFuture.runAsync(() -> rabbitTemplate.convertAndSend(exchange, routingKey,
                 new UserInfo(passenger.getUsername(), LocalDateTime.now(), Activity.REGISTERED)));
         log.info("PASSENGER {} IS ACTIVE", passenger.getUsername());
+
         return "passenger is active";
     }
 
     @Transactional
     public Set<Role> changeRole(String username, Set<Role> roles) {
+
         Passenger passenger = passengerRepository
                 .getPassengerByUsername(username).orElseThrow(() -> new BusinessException(ERROR_MESSAGE));
         passenger.setRoles(roles);
@@ -144,11 +158,13 @@ public class PassengerService {
         CompletableFuture.runAsync(() -> rabbitTemplate.convertAndSend(exchange, routingKey,
                 new UserInfo(passenger.getUsername(), LocalDateTime.now(), Activity.CHANGE_ROLE)));
         log.info("PASSENGER {} ROLES WERE UPDATED TO {}", passenger.getId(), roles);
+
         return roles;
     }
 
     @Transactional
     public Token updateToken(Principal principal) {
+
         JwtHolder jwtHolder = jwtRepository.findByPassengerUsername(principal.getName())
                 .orElseThrow(() -> new BusinessException(ERROR_MESSAGE));
         String newAccessToken = jwtUtils.createToken(principal, true);
@@ -156,13 +172,17 @@ public class PassengerService {
         jwtHolder.setAccessToken(newAccessToken);
         jwtHolder.setRefreshToken(newRefreshToken);
         jwtRepository.save(jwtHolder);
+
         return new Token(newAccessToken, newRefreshToken);
     }
 
     private Specification<Passenger> getSpecification(Map<String, Object> parameters) {
+
         return (root, query, criteriaBuilder) -> {
+
             Specification<Passenger> specification = passengerSpecification
                     .getSpecification(Optional.empty(), parameters);
+
             return specification.and(specification)
                     .toPredicate(root, query, criteriaBuilder);
         };

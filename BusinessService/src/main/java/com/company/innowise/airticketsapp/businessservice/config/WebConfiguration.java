@@ -51,6 +51,7 @@ public class WebConfiguration {
                 .csrf().disable()
                 .authenticationManager(authenticationManager())
                 .httpBasic();
+
         return http.build();
     }
 

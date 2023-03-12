@@ -14,7 +14,9 @@ public class ParameterValidator {
     }
 
     public ParameterValidator add(Predicate predicate, Optional<?> value) {
+
         value.ifPresent(o -> predicates.add(predicate));
+
         return this;
     }
 

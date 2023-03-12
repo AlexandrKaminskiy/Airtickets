@@ -5,6 +5,8 @@ import com.company.innowise.airticketsapp.businessservice.model.Airport;
 import com.company.innowise.airticketsapp.businessservice.service.AirportService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -21,16 +23,17 @@ public class AirportController {
     private final AirportService airportService;
 
     @GetMapping("/")
-    public List<Airport> getAll(@RequestParam(defaultValue = "10", required = false) Integer size,
-                                @RequestParam(defaultValue = "0", required = false) Integer page,
+    public List<Airport> getAll(@PageableDefault Pageable pageable,
                                 @RequestParam(required = false) String town,
                                 @RequestParam(required = false) String country,
                                 @RequestParam(required = false) String name) {
+
         Map<String, Object> params = new HashMap<>();
-        params.compute(TOWN, (k, v)-> town);
-        params.compute(COUNTRY, (k, v)-> country);
-        params.compute(NAME, (k, v)-> name);
-        return airportService.getAll(params, size, page);
+        params.compute(TOWN, (k, v) -> town);
+        params.compute(COUNTRY, (k, v) -> country);
+        params.compute(NAME, (k, v) -> name);
+
+        return airportService.getAll(params, pageable);
     }
 
     @GetMapping("/{id}")

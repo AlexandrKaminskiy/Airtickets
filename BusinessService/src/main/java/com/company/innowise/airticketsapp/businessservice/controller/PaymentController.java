@@ -19,12 +19,14 @@ public class PaymentController {
     @PostMapping("/pay/{ticketId}")
     public String payTicket(@PathVariable Long ticketId, Principal principal) {
         paymentService.purchaseTicket(ticketId, principal);
+
         return "ticket was paid";
     }
 
     @PostMapping("/sell/{ticketId}")
     public String sellTicket(@PathVariable Long ticketId, Principal principal) {
         paymentService.sellTicket(ticketId, principal);
+
         return "ticket was sold";
     }
 

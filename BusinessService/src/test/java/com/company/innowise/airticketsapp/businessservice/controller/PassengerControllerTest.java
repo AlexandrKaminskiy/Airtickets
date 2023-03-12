@@ -43,18 +43,22 @@ class PassengerControllerTest {
     @BeforeEach
     @Transactional
     public void setup() {
+
         passenger = new Passenger();
         passenger.setRoles(new HashSet<>(Set.of(Role.ROLE_PASSENGER, Role.ROLE_MANAGER)));
         passenger.setUsername("test_user");
         passenger.setPassword(passwordEncoder.encode("test_password"));
         passenger.setIsActive(true);
         repository.save(passenger);
+
     }
     @Test
     void getPassengerForbidden() throws Exception {
+
         Token token = passengerService.signIn(new PassengerCredentials("test_user", "test_password"));
         mockMvc.perform(get("/api/passenger/0").header(AUTHORIZATION, "Bearer " + token.getAccessToken()))
                 .andExpect(status().isForbidden());
+
     }
 
     @AfterEach

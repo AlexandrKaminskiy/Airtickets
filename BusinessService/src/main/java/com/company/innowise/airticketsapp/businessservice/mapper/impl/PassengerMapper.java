@@ -12,9 +12,11 @@ public class PassengerMapper implements Mapper<Passenger, PassengerDto> {
     private final ModelMapper modelMapper;
 
     public PassengerMapper() {
+
         modelMapper = new ModelMapper();
         modelMapper.createTypeMap(Passenger.class, PassengerDto.class);
         modelMapper.createTypeMap(PassengerDto.class, Passenger.class);
+
     }
 
     @Override

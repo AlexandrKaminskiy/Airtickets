@@ -12,9 +12,11 @@ public class TicketMapper implements Mapper<Ticket, TicketDto> {
     private final ModelMapper modelMapper;
 
     public TicketMapper() {
+
         modelMapper = new ModelMapper();
         modelMapper.createTypeMap(Ticket.class, TicketDto.class);
         modelMapper.createTypeMap(TicketDto.class, Ticket.class);
+
     }
 
     @Override

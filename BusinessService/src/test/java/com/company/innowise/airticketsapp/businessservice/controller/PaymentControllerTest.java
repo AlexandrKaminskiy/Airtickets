@@ -49,16 +49,19 @@ class PaymentControllerTest {
     @BeforeEach
     @Transactional
     public void setup() {
+
         passenger = new Passenger();
         passenger.setRoles(new HashSet<>(Set.of(Role.ROLE_PASSENGER, Role.ROLE_MANAGER, Role.ROLE_ADMIN)));
         passenger.setUsername("test_user");
         passenger.setPassword(passwordEncoder.encode("test_password"));
         passenger.setIsActive(true);
         repository.save(passenger);
+
     }
 
     @Test
     void payTicket() throws Exception {
+
         Mockito.doNothing()
                 .when(paymentService)
                 .purchaseTicket(ArgumentMatchers.anyLong(), ArgumentMatchers.any(Principal.class));
@@ -66,6 +69,7 @@ class PaymentControllerTest {
         mockMvc.perform(post("/api/payment/pay/0")
                         .header(AUTHORIZATION, "Bearer " + token.getAccessToken()))
                 .andExpect(status().isOk());
+
     }
 
     @AfterEach

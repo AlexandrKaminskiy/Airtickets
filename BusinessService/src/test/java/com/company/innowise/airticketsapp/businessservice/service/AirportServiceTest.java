@@ -22,19 +22,23 @@ class AirportServiceTest {
 
     @Test
     void addAirport() {
+
         airportService.addAirport(new AirportDto());
         Mockito.verify(airportRepository, Mockito.times(1))
                 .save(ArgumentMatchers.any(Airport.class));
+
     }
 
     @Test
     void deleteAirport() {
+
         Mockito.doReturn(Optional.of(new Airport()))
                         .when(airportRepository)
                         .findById(ArgumentMatchers.anyLong());
         airportService.deleteAirport(ArgumentMatchers.anyLong());
         Mockito.verify(airportRepository, Mockito.times(1))
                 .delete(ArgumentMatchers.any(Airport.class));
+
     }
 
 }

@@ -33,24 +33,28 @@ public class TicketService {
     private final FlightSpecification flightSpecification;
     private final TicketMapper ticketMapper;
 
-    public List<TicketDto> getAll(Map<String, Object> parameters, int size, int page) {
+    public List<TicketDto> getAll(Map<String, Object> parameters, Pageable pageable) {
         Specification<Ticket> specification = getSpecification(parameters);
         return ticketRepository.findAll(specification,
-                        Pageable.ofSize(size).withPage(page)).stream()
+                        Pageable.ofSize(pageable.getPageSize())
+                                .withPage(pageable.getPageNumber())).stream()
                 .map(ticketMapper::toDto)
                 .toList();
     }
 
     public TicketDto getTicket(Long id) {
+
         Ticket ticket = ticketRepository.findById(id).orElseThrow(() -> new BusinessException("ticket not found"));
         if (ticket.getPassenger() != null) {
             throw new BusinessException("information about this ticket cannot be shown");
         }
+
         return ticketMapper.toDto(ticket);
     }
 
     @Transactional
     public void addTickets(Flight flight, Integer seatsCount, BigDecimal price) {
+
         List<Ticket> tickets = new ArrayList<>();
         for (int i = 0; i < seatsCount; i++) {
             Ticket ticket = new Ticket();
@@ -61,10 +65,13 @@ public class TicketService {
         }
         ticketRepository.saveAll(tickets);
         log.info("{} TICKETS FOR FLIGHT WITH ID {} WAS SAVED", seatsCount, flight.getId());
+
     }
 
     private Specification<Ticket> getSpecification(Map<String, Object> parameters) {
+
         return (root, query, criteriaBuilder) -> {
+
             Specification<Ticket> specificationTicket = ticketSpecification
                     .getSpecification(Optional.empty(), parameters);
             Join<Ticket, Flight> ticketFlightJoin = root.join(Ticket_.FLIGHT);
@@ -74,6 +81,7 @@ public class TicketService {
             Specification<Ticket> specification = specificationTicket
                     .and(specificationFlight);
             Predicate predicate = specification.toPredicate(root, query, criteriaBuilder);
+
             return criteriaBuilder.and(predicate, ticketPassenger);
         };
     }

@@ -39,6 +39,7 @@ class PassengerServiceTest {
 
     @Test
     void signUp() {
+
         Mockito.doReturn(new ArrayList<>())
                 .when(passengerRepository)
                 .getPassengerByUsernameOrEmail(
@@ -66,10 +67,12 @@ class PassengerServiceTest {
         passengerService.signUp(newPassengerDto);
         Mockito.verify(passengerRepository, Mockito.times(1))
                 .save(ArgumentMatchers.any(Passenger.class));
+
     }
 
     @Test
     void changeRole() {
+
         Mockito.doReturn(Optional.of(new Passenger()))
                 .when(passengerRepository)
                 .getPassengerByUsername(
@@ -78,6 +81,7 @@ class PassengerServiceTest {
         passengerService.changeRole("", Collections.singleton(Role.ROLE_ADMIN));
         Mockito.verify(passengerRepository, Mockito.times(1))
                 .save(ArgumentMatchers.any(Passenger.class));
+
     }
 
 }

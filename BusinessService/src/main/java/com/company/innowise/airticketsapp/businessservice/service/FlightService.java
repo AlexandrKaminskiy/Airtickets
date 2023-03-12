@@ -24,21 +24,26 @@ public class FlightService {
     private final TicketService ticketService;
     private final FlightMapper flightMapper;
     private final FlightRepository flightRepository;
-    private final String ERROR_MESSAGE = "flight not found";
+    private static final String ERROR_MESSAGE = "flight not found";
 
-    public List<FlightDto> getAll(String from, String to, int size, int page) {
+    public List<FlightDto> getAll(String from, String to, Pageable pageable) {
+
         return flightRepository
-                .findByFromTownAndToTownOrderByTimeArrive(to, from, Pageable.ofSize(size).withPage(page)).stream()
+                .findByFromTownAndToTownOrderByTimeArrive(to, from,
+                        Pageable.ofSize(pageable.getPageSize())
+                                .withPage(pageable.getPageNumber()))
+                .stream()
                 .map(flightMapper::toDto)
                 .toList();
     }
 
     public FlightDto getFlight(long id) {
-        return flightMapper.toDto(flightRepository.findById(id).orElseThrow(()->new BusinessException(ERROR_MESSAGE)));
+        return flightMapper.toDto(flightRepository.findById(id).orElseThrow(() -> new BusinessException(ERROR_MESSAGE)));
     }
 
     @Transactional
     public FlightDto addFlight(NewFlightDto newFlightDto) {
+
         Flight flight = new Flight();
         flight.setTimeArrive(newFlightDto.getTimeArrive());
         flight.setTimeDeparture(newFlightDto.getTimeDeparture());
@@ -49,24 +54,29 @@ public class FlightService {
         flightRepository.save(flight);
         ticketService.addTickets(flight, newFlightDto.getSeatsCount(), newFlightDto.getPrice());
         log.info("FLIGHT {} WAS ADDED", flight.getId());
+
         return flightMapper.toDto(flight);
     }
 
     @Transactional
     public void deleteFlight(long id) {
+
         Flight flight = flightRepository.findById(id).orElseThrow(() -> new BusinessException(ERROR_MESSAGE));
         flightRepository.delete(flight);
         log.info("FLIGHT {} WAS DELETED", id);
+
     }
 
     @Transactional
     public FlightDto updateFlight(Long flightId, UpdatedFlightDto flightDto) {
+
         Flight flight = flightRepository
                 .findById(flightId).orElseThrow(() -> new BusinessException(ERROR_MESSAGE));
         flight.setTimeArrive(flightDto.getTimeArrive());
         flight.setTimeArrive(flightDto.getTimeDeparture());
         flightRepository.save(flight);
         log.info("FLIGHT {} WAS UPDATED", flightId);
+
         return flightMapper.toDto(flight);
     }
 

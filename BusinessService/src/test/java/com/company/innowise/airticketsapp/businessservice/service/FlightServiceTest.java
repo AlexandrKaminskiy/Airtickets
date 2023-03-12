@@ -32,6 +32,7 @@ class FlightServiceTest {
 
     @Test
     void addFlight() {
+
         Mockito.doReturn(new Airport())
                         .when(airportService)
                         .getById(ArgumentMatchers.anyLong());
@@ -51,26 +52,31 @@ class FlightServiceTest {
         flightService.addFlight(newFlightDto);
         Mockito.verify(flightRepository, Mockito.times(1))
                 .save(ArgumentMatchers.any(Flight.class));
+
     }
 
     @Test
     void deleteFlight() {
+
         Mockito.doReturn(Optional.of(new Flight()))
                 .when(flightRepository)
                 .findById(ArgumentMatchers.anyLong());
         flightService.deleteFlight(0);
         Mockito.verify(flightRepository, Mockito.times(1))
                 .delete(ArgumentMatchers.any(Flight.class));
+
     }
 
     @Test
     void updateFlight() {
+
         Mockito.doReturn(Optional.of(new Flight()))
                 .when(flightRepository)
                 .findById(ArgumentMatchers.anyLong());
         flightService.updateFlight(0L, new UpdatedFlightDto());
         Mockito.verify(flightRepository, Mockito.times(1))
                 .save(ArgumentMatchers.any(Flight.class));
+
     }
 
 }

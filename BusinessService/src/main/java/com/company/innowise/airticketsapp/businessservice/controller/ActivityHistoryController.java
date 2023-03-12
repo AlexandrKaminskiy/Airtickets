@@ -4,6 +4,8 @@ import com.company.innowise.airticketsapp.businessservice.dto.Activity;
 import com.company.innowise.airticketsapp.businessservice.dto.UserInfo;
 import com.company.innowise.airticketsapp.businessservice.service.ActivityHistoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,16 +19,14 @@ public class ActivityHistoryController {
 
     @GetMapping("/user/{username}")
     public List<UserInfo> getUserActions(@PathVariable String username,
-                                         @RequestParam(defaultValue = "0") Integer page,
-                                         @RequestParam(defaultValue = "10") Integer size) {
-        return activityHistoryService.getUserActivityInfo(username, page, size);
+                                         @PageableDefault Pageable pageable) {
+        return activityHistoryService.getUserActivityInfo(username, pageable);
     }
 
     @GetMapping("/activity/{activity}")
     public List<UserInfo> getUserActions(@PathVariable Activity activity,
-                                         @RequestParam(defaultValue = "0") Integer page,
-                                         @RequestParam(defaultValue = "10") Integer size) {
-        return activityHistoryService.getActivityInfo(activity, page, size);
+                                         @PageableDefault Pageable pageable) {
+        return activityHistoryService.getActivityInfo(activity, pageable);
     }
 
 }
