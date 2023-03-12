@@ -3,11 +3,10 @@ package com.company.innowise.airticketsapp.businessservice.controller;
 import com.company.innowise.airticketsapp.businessservice.dto.FlightDto;
 import com.company.innowise.airticketsapp.businessservice.dto.NewFlightDto;
 import com.company.innowise.airticketsapp.businessservice.dto.UpdatedFlightDto;
+import com.company.innowise.airticketsapp.businessservice.findingdto.FlightFindingDto;
 import com.company.innowise.airticketsapp.businessservice.service.FlightService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -18,11 +17,10 @@ public class FlightController {
 
     private final FlightService flightService;
 
-    @GetMapping
-    public List<FlightDto> getAll(@PageableDefault Pageable pageable,
-                                  @RequestParam String to,
-                                  @RequestParam String from) {
-        return flightService.getAll(to, from, pageable);
+    @PostMapping("/all")
+    public List<FlightDto> getAll(@RequestBody @Valid FlightFindingDto flightFindingDto) {
+        return flightService.getAll(flightFindingDto.getTo(),
+                flightFindingDto.getFrom(), flightFindingDto.getPageRequest());
     }
 
     @GetMapping("/{id}")

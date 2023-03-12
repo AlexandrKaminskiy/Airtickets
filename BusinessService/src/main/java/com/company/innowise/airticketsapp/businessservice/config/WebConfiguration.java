@@ -35,7 +35,9 @@ public class WebConfiguration {
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers("/api/passenger/**")
                             .hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/airport/**", "/api/flight/**")
+                        .requestMatchers(HttpMethod.POST, "/api/airport/test")
+                            .permitAll()
+                        .requestMatchers("/api/airport/all", "/api/flight/all")
                             .permitAll()
                         .requestMatchers("/api/airport/**", "/api/flight/**", "/api/history/**")
                             .hasRole("MANAGER")

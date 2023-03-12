@@ -41,7 +41,7 @@ dependencies {
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-openfeign', version: "${springCloudVersion}"
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-openfeign-core', version: "${springCloudVersion}"
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter', version: "${springCloudVersion}"
-    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-eureka-client', version: "${springCloudVersion}"
+//    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-eureka-client', version: "${springCloudVersion}"
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     implementation group: 'org.modelmapper', name: 'modelmapper', version: "${modelmapperVersion}"
     annotationProcessor group: 'org.hibernate', name: 'hibernate-jpamodelgen', version: "${jpaMetamodelVersion}"

@@ -1,10 +1,9 @@
 package com.company.innowise.airticketsapp.businessservice.controller;
 
 import com.company.innowise.airticketsapp.businessservice.dto.TicketDto;
+import com.company.innowise.airticketsapp.businessservice.findingdto.TicketFindingDto;
 import com.company.innowise.airticketsapp.businessservice.service.TicketService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -18,19 +17,17 @@ public class TicketController {
 
     private final TicketService ticketService;
 
-    @GetMapping("/flight/{flightId}")
+    @PostMapping("/flight/{flightId}")
     public List<TicketDto> getAll(@PathVariable Integer flightId,
-                                  @PageableDefault Pageable pageable,
-                                  @RequestParam(required = false) Double priceFrom,
-                                  @RequestParam(required = false) Double priceTo) {
+                                  @RequestBody TicketFindingDto ticketFindingDto) {
 
         Map<String, Object> params = new HashMap<>();
 
         params.compute("flightId", (k, v) -> flightId);
-        params.compute("priceFrom", (k, v) -> priceFrom);
-        params.compute("priceTo", (k, v) -> priceTo);
+        params.compute("priceFrom", (k, v) -> ticketFindingDto.getPriceFrom());
+        params.compute("priceTo", (k, v) -> ticketFindingDto.getPriceTo());
 
-        return ticketService.getAll(params, pageable);
+        return ticketService.getAll(params, ticketFindingDto.getPageRequest());
 
     }
 

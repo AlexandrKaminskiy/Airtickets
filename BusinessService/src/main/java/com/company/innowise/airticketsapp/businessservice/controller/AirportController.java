@@ -1,12 +1,11 @@
 package com.company.innowise.airticketsapp.businessservice.controller;
 
 import com.company.innowise.airticketsapp.businessservice.dto.AirportDto;
+import com.company.innowise.airticketsapp.businessservice.findingdto.AirportFindingDto;
 import com.company.innowise.airticketsapp.businessservice.model.Airport;
 import com.company.innowise.airticketsapp.businessservice.service.AirportService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -22,18 +21,15 @@ public class AirportController {
 
     private final AirportService airportService;
 
-    @GetMapping
-    public List<Airport> getAll(@PageableDefault Pageable pageable,
-                                @RequestParam(required = false) String town,
-                                @RequestParam(required = false) String country,
-                                @RequestParam(required = false) String name) {
+    @PostMapping("/all")
+    public List<Airport> getAll(@RequestBody @Valid AirportFindingDto airportFindingDto) {
 
         Map<String, Object> params = new HashMap<>();
-        params.compute(TOWN, (k, v) -> town);
-        params.compute(COUNTRY, (k, v) -> country);
-        params.compute(NAME, (k, v) -> name);
+        params.compute(TOWN, (k, v) -> airportFindingDto.getTown());
+        params.compute(COUNTRY, (k, v) -> airportFindingDto.getCountry());
+        params.compute(NAME, (k, v) -> airportFindingDto.getName());
 
-        return airportService.getAll(params, pageable);
+        return airportService.getAll(params, airportFindingDto.getPageRequest());
     }
 
     @GetMapping("/{id}")

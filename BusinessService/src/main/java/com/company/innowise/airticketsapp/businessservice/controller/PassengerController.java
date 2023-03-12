@@ -1,13 +1,12 @@
 package com.company.innowise.airticketsapp.businessservice.controller;
 
 import com.company.innowise.airticketsapp.businessservice.dto.PassengerDto;
+import com.company.innowise.airticketsapp.businessservice.findingdto.PassengerFindingDto;
 import com.company.innowise.airticketsapp.businessservice.model.Role;
 import com.company.innowise.airticketsapp.businessservice.service.PassengerService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,18 +21,15 @@ public class PassengerController {
 
     private final PassengerService passengerService;
 
-    @GetMapping
-    public List<PassengerDto> getPassengers(@PageableDefault Pageable pageable,
-                                            @RequestParam(required = false) String username,
-                                            @RequestParam(required = false) String firstname,
-                                            @RequestParam(required = false) String lastname) {
+    @PostMapping("/all")
+    public List<PassengerDto> getPassengers(@RequestBody @Valid PassengerFindingDto passengerFindingDto) {
 
         Map<String, Object> params = new HashMap<>();
-        params.compute(USERNAME, (k, v) -> username);
-        params.compute(FIRSTNAME, (k, v) -> firstname);
-        params.compute(LASTNAME, (k, v) -> lastname);
+        params.compute(USERNAME, (k, v) -> passengerFindingDto.getUsername());
+        params.compute(FIRSTNAME, (k, v) -> passengerFindingDto.getFirstname());
+        params.compute(LASTNAME, (k, v) -> passengerFindingDto.getLastname());
 
-        return passengerService.getAll(params, pageable);
+        return passengerService.getAll(params, passengerFindingDto.getPageRequest());
     }
 
     @PutMapping("/change-role/{username}")
